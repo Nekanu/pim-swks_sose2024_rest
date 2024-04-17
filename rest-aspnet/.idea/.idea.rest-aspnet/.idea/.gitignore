@@ -1,6 +1,7 @@
 ﻿# Default ignored files
 /shelf/
 /workspace.xml
+sonarlint/
 
 # Rider ignored files
 /modules.xml
