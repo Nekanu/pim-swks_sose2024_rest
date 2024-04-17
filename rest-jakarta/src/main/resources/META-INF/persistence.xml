@@ -1,0 +1,18 @@
+﻿<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    <persistence-unit name="default">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mariadb://localhost:3306/blog"/>
+            <property name="hibernate.connection.driver_class" value="org.mariadb.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="blog"/>
+            <property name="hibernate.connection.password" value="blog"/>
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/> <!-- DB Dialect -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- create / create-drop / update -->
+        </properties>
+    </persistence-unit>
+</persistence>

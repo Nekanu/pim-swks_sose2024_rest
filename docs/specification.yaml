@@ -4,16 +4,17 @@ info:
     description: PIM-SWKS SoSe2024 REST API
     version: 1.0.0
 servers:
-    -   url: '{scheme}://127.0.0.1:{port}/'
-        description: Development server
+    -   url: 'http://127.0.0.1:{Port}/'
+        description: Local development server
         variables:
-            scheme:
+            Port:
                 enum:
-                    - http
-                    - https
-                default: http
-            port:
-                default: '8080'
+                    - '18080'
+                    - '28080'
+                    - '38080'
+                    - '8080'
+                default: '18080'
+                description: The port number (18080 - rest-jakarta, 28080 - rest-springboot, 38080 - rest-aspnet)
     -   url: 'https://pim-swks.nekanu.com/'
         description: Production server
 
@@ -33,30 +34,26 @@ components:
             name: X-API-KEY
     
     schemas:
-        ApiInformation:
-            type: object
-            properties:
-                version:
-                    type: string
-                    format: semver
-                    example: 1.0.0
         Post:
             type: object
             properties:
                 id:
                     type: integer
-                    format: int64
+                    format: uint64
                     readOnly: true
                     example: 1
                 title:
                     type: string
+                    minLength: 3
+                    maxLength: 512
                     example: "Hello World"
                 content:
                     type: string
+                    format: markdown
                     example: "This is a post"
                 authorId:
                     type: integer
-                    format: int64
+                    format: uint64
                     example: 1
                     description: ID of the author of the post
         
@@ -65,11 +62,15 @@ components:
             properties:
                 id:
                     type: integer
-                    format: int64
+                    format: uint64
                     readOnly: true
+                    minimum: 1
                     example: 1
                 username:
                     type: string
+                    pattern: "^[a-zA-Z0-9-_.]{3,64}$"
+                    minLength: 3
+                    maxLength: 64
                     example: "admin"
                 email:
                     type: string
@@ -80,7 +81,7 @@ components:
             properties:
                 id:
                     type: integer
-                    format: int64
+                    format: uint64
                     readOnly: true
                     example: 1
                 content:
@@ -88,12 +89,12 @@ components:
                     example: "This is a comment"
                 authorId:
                     type: integer
-                    format: int64
+                    format: uint64
                     example: 1
                     description: ID of the author of the comment
                 postId:
                     type: integer
-                    format: int64
+                    format: uint64
                     example: 1
                     description: ID of the post the comment is for
 
@@ -475,16 +476,28 @@ paths:
                                 $ref: '#/components/schemas/Comment'
                 '403':
                     description: Forbidden
-    
-    
-    /info:
+
+    /users/{id}/comments:
         get:
-            summary: Returns Information about the API and the server running it
-            operationId: getApiInformation
+            summary: Returns all comments authored by this user
+            operationId: getCommentsForUser
+            tags:
+                - comments
+                - users
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the user to return comments for
+                    schema:
+                        type: integer
+                        format: int64
             responses:
                 '200':
                     description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ApiInformation'
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Comment'

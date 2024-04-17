@@ -1,16 +1,74 @@
 ﻿version: "3.8"
 
+networks:
+    default:
+
 volumes:
-  wildfly_data:
+    mariadb_data:
 
 services:
-  rest-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: rest-api
-    volumes:
-      - wildfly_data:/opt/jboss/wildfly/standalone/data
-    ports:
-      - "8080:8080"
-      - "9990:9990"
+    rest-jakarta:
+        build:
+            context: .
+            dockerfile: rest-jakarta/Dockerfile
+        container_name: rest-jakarta
+        ports:
+            - "18080:8080"
+            - "9990:9990"
+        environment:
+            DATABASE_HOST: mariadb
+            DATABASE_PORT: 3306
+            DATABASE_NAME: blog
+            DATABASE_USER: blog
+            DATABASE_PASSWORD: blog
+        networks:
+            - default
+    
+    rest-springboot:
+        build:
+            context: .
+            dockerfile: rest-springboot/Dockerfile
+        container_name: rest-springboot
+        ports:
+            - "28080:8080"
+        environment:
+            DATABASE_HOST: mariadb
+            DATABASE_PORT: 3306
+            DATABASE_NAME: blog
+            DATABASE_USER: blog
+            DATABASE_PASSWORD: blog
+        networks:
+            - default
+    
+    rest-aspnet:
+        build:
+            context: ./rest-aspnet
+            dockerfile: rest-aspnet/Dockerfile
+        container_name: rest-aspnet
+        ports:
+            - "38080:8080"
+        environment:
+            DATABASE_HOST: mariadb
+            DATABASE_PORT: 3306
+            DATABASE_NAME: blog
+            DATABASE_USER: blog
+            DATABASE_PASSWORD: blog
+        networks:
+            - default
+    
+    mariadb:
+        image: mariadb:11.3
+        container_name: mariadb
+        volumes:
+            - mariadb_data:/var/lib/mysql
+        expose:
+            - "3306"
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: blog
+            MYSQL_USER: blog
+            MYSQL_PASSWORD: blog
+        networks:
+            - default
