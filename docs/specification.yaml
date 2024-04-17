@@ -1,47 +1,490 @@
 ﻿openapi: 3.0.3
 info:
-  title: PIM-SWKS SoSe2024 REST API
-  description: PIM-SWKS SoSe2024 REST API
-  version: 1.0.0
+    title: PIM-SWKS SoSe2024 REST API
+    description: PIM-SWKS SoSe2024 REST API
+    version: 1.0.0
 servers:
-  - url: '{scheme}://127.0.0.1:{port}/rest/api'
-    description: Development server
-    variables:
-      scheme:
-        enum:
-          - http
-          - https
-        default: http
-      port:
-        default: '8080'
-  - url: 'https://pim-swks.nekanu.com/rest/api'
-    description: Production server
+    -   url: '{scheme}://127.0.0.1:{port}/'
+        description: Development server
+        variables:
+            scheme:
+                enum:
+                    - http
+                    - https
+                default: http
+            port:
+                default: '8080'
+    -   url: 'https://pim-swks.nekanu.com/'
+        description: Production server
+
+tags:
+    -   name: posts
+        description: Operations on posts
+    -   name: comments
+        description: Operations on comments
+    -   name: users
+        description: Operations on users
 
 components:
-  securitySchemes:
-    apikeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-KEY
-  
-  schemas:
-    ApiInformation:
-      type: object
-      properties:
-        version:
-          type: string
-          format: semver
-          example: 1.0.0
+    securitySchemes:
+        apikeyAuth:
+            type: apiKey
+            in: header
+            name: X-API-KEY
+    
+    schemas:
+        ApiInformation:
+            type: object
+            properties:
+                version:
+                    type: string
+                    format: semver
+                    example: 1.0.0
+        Post:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                    readOnly: true
+                    example: 1
+                title:
+                    type: string
+                    example: "Hello World"
+                content:
+                    type: string
+                    example: "This is a post"
+                authorId:
+                    type: integer
+                    format: int64
+                    example: 1
+                    description: ID of the author of the post
+        
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                    readOnly: true
+                    example: 1
+                username:
+                    type: string
+                    example: "admin"
+                email:
+                    type: string
+                    format: email
+                    example: "email@example.com"
+        Comment:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                    readOnly: true
+                    example: 1
+                content:
+                    type: string
+                    example: "This is a comment"
+                authorId:
+                    type: integer
+                    format: int64
+                    example: 1
+                    description: ID of the author of the comment
+                postId:
+                    type: integer
+                    format: int64
+                    example: 1
+                    description: ID of the post the comment is for
 
 paths:
-  /info:
-    get:
-      summary: Returns Information about the API and the server running it
-      operationId: getApiInformation
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiInformation'
+    /posts:
+        get:
+            summary: Returns all posts
+            operationId: getPosts
+            tags:
+                - posts
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Post'
+        post:
+            summary: Create a new post
+            operationId: createPost
+            tags:
+                - posts
+            security:
+                -   apikeyAuth: [ ]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Post'
+            responses:
+                '201':
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Post'
+                '403':
+                    description: Forbidden
+    /posts/{id}:
+        get:
+            summary: Returns a post by ID
+            operationId: getPostById
+            tags:
+                - posts
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the post to return
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Post'
+        put:
+            summary: Update a post by ID
+            operationId: updatePostById
+            tags:
+                - posts
+            security:
+                -   apikeyAuth: [ ]
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the post to update
+                    schema:
+                        type: integer
+                        format: int64
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Post'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Post'
+                '403':
+                    description: Forbidden
+        delete:
+            summary: Delete a post by ID
+            operationId: deletePostById
+            tags:
+                - posts
+            security:
+                -   apikeyAuth: [ ]
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the post to delete
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Post'
+                '403':
+                    description: Forbidden
+    
+    /users:
+        get:
+            summary: Returns all users
+            operationId: getUsers
+            tags:
+                - users
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+        post:
+            summary: Create a new user
+            operationId: createUser
+            tags:
+                - users
+            security:
+                -   apikeyAuth: [ ]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                '201':
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '403':
+                    description: Forbidden
+    
+    /users/{id}:
+        get:
+            summary: Returns a user by ID
+            operationId: getUserById
+            tags:
+                - users
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the user to return
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+        put:
+            summary: Update a user by ID
+            operationId: updateUserById
+            tags:
+                - users
+            security:
+                -   apikeyAuth: [ ]
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the user to update
+                    schema:
+                        type: integer
+                        format: int64
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '403':
+                    description: Forbidden
+        delete:
+            summary: Delete a user by ID
+            operationId: deleteUserById
+            tags:
+                - users
+            security:
+                -   apikeyAuth: [ ]
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the user to delete
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+                '403':
+                    description: Forbidden
+    
+    /posts/{id}/comments:
+        get:
+            summary: Returns all comments for a post
+            operationId: getCommentsForPost
+            tags:
+                - comments
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the post to return comments for
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Comment'
+        post:
+            summary: Create a new comment for a post
+            operationId: createCommentForPost
+            tags:
+                - comments
+            security:
+                -   apikeyAuth: [ ]
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the post to create a comment for
+                    schema:
+                        type: integer
+                        format: int64
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Comment'
+            responses:
+                '201':
+                    description: Created
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Comment'
+                '403':
+                    description: Forbidden
+    
+    /posts/{postId}/comments/{commentId}:
+        get:
+            summary: Returns a comment by ID for a post
+            operationId: getCommentForPostById
+            tags:
+                - comments
+            parameters:
+                -   name: postId
+                    in: path
+                    required: true
+                    description: ID of the post to return a comment for
+                    schema:
+                        type: integer
+                        format: int64
+                -   name: commentId
+                    in: path
+                    required: true
+                    description: ID of the comment to return
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Comment'
+        put:
+            summary: Update a comment by ID for a post
+            operationId: updateCommentForPostById
+            tags:
+                - comments
+            security:
+                -   apikeyAuth: [ ]
+            parameters:
+                -   name: postId
+                    in: path
+                    required: true
+                    description: ID of the post to update a comment for
+                    schema:
+                        type: integer
+                        format: int64
+                -   name: commentId
+                    in: path
+                    required: true
+                    description: ID of the comment to update
+                    schema:
+                        type: integer
+                        format: int64
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Comment'
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Comment'
+                '403':
+                    description: Forbidden
+        delete:
+            summary: Delete a comment by ID for a post
+            operationId: deleteCommentForPostById
+            tags:
+                - comments
+            security:
+                -   apikeyAuth: [ ]
+            parameters:
+                -   name: postId
+                    in: path
+                    required: true
+                    description: ID of the post to delete a comment for
+                    schema:
+                        type: integer
+                        format: int64
+                -   name: commentId
+                    in: path
+                    required: true
+                    description: ID of the comment to delete
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Comment'
+                '403':
+                    description: Forbidden
+    
+    
+    /info:
+        get:
+            summary: Returns Information about the API and the server running it
+            operationId: getApiInformation
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiInformation'
