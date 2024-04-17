@@ -3,7 +3,7 @@ package de.htwsaar.pimswks.rest;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 
-@ApplicationPath("/api")
-public class HelloApplication extends Application {
+@ApplicationPath("/")
+public class RestApplication extends Application {
 
 }
