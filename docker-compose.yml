@@ -1,0 +1,16 @@
+﻿version: "3.8"
+
+volumes:
+  wildfly_data:
+
+services:
+  rest-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rest-api
+    volumes:
+      - wildfly_data:/opt/jboss/wildfly/standalone/data
+    ports:
+      - "8080:8080"
+      - "9990:9990"

@@ -1,0 +1,47 @@
+﻿openapi: 3.0.3
+info:
+  title: PIM-SWKS SoSe2024 REST API
+  description: PIM-SWKS SoSe2024 REST API
+  version: 1.0.0
+servers:
+  - url: '{scheme}://127.0.0.1:{port}/rest/api'
+    description: Development server
+    variables:
+      scheme:
+        enum:
+          - http
+          - https
+        default: http
+      port:
+        default: '8080'
+  - url: 'https://pim-swks.nekanu.com/rest/api'
+    description: Production server
+
+components:
+  securitySchemes:
+    apikeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+  
+  schemas:
+    ApiInformation:
+      type: object
+      properties:
+        version:
+          type: string
+          format: semver
+          example: 1.0.0
+
+paths:
+  /info:
+    get:
+      summary: Returns Information about the API and the server running it
+      operationId: getApiInformation
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiInformation'
