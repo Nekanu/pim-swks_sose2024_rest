@@ -11,14 +11,18 @@
 package de.htwsaar.pimswks.rest.resources;
 
 import de.htwsaar.pimswks.rest.model.CommentDto;
+import de.htwsaar.pimswks.rest.model.entities.CommentEntity;
 import de.htwsaar.pimswks.rest.repositories.CommentRepository;
 import de.htwsaar.pimswks.rest.repositories.PostRepository;
 import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -26,8 +30,14 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/posts/{postId}/comments")
+import java.net.URI;
+import java.util.List;
+
+@Path(PostsIdCommentsResource.PATH)
 public class PostsIdCommentsResource {
+
+    public static final String PATH = "/posts/{postId}/comments";
+    private static final String COMMENT_NOT_FOUND_MESSAGE_TEMPLATE = "Comment with ID %d not found";
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -42,17 +52,57 @@ public class PostsIdCommentsResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getComments(@PathParam("postId") long postId, @QueryParam("limit") int limit, @QueryParam("offset") int offset) {
-        // TODO: Implement
-        throw new UnsupportedOperationException("Not implemented yet");
+    public List<CommentDto> getComments(@PathParam("postId") long postId, @QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+        return commentRepository.readAll(postId, offset, limit).stream()
+            .map(CommentEntity::convertToDto)
+            .toList();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public Response createComment(@PathParam("postId") long postId, CommentDto comment) {
-        // TODO: Implement
-        throw new UnsupportedOperationException("Not implemented yet");
+    public Response createComment(@PathParam("postId") long postId, final CommentDto comment) {
+        CommentEntity commentEntity = new CommentEntity();
+        commentEntity.setPost(postRepository.findById(postId)
+            .orElseThrow(() -> new NotFoundException(String.format("No post with ID %d found", postId))));
+        commentEntity.setAuthor(userRepository.findById(comment.getAuthorId())
+            .orElseThrow(() -> new NotFoundException(String.format("No user with ID %d found", comment.getAuthorId()))));
+        commentEntity.setContent(comment.getContent());
+
+        CommentEntity createdComment = commentRepository.create(commentEntity);
+        return Response.created(URI.create(PATH + "/" + createdComment.getId())).build();
+    }
+
+    @GET
+    @Path("{commentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public CommentDto getComment(@PathParam("commentId") long commentId) {
+        return commentRepository.findById(commentId)
+            .map(CommentEntity::convertToDto)
+            .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
+    }
+
+    @PUT
+    @Path("{commentId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured
+    public CommentDto updateComment(@PathParam("commentId") long commentId, final CommentDto comment) {
+        CommentEntity commentEntity = commentRepository.findById(commentId)
+            .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
+        commentEntity.setContent(comment.getContent());
+
+        return commentRepository.update(commentEntity).convertToDto();
+    }
+
+    @DELETE
+    @Path("{commentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured
+    public CommentDto deleteComment(@PathParam("commentId") long commentId) {
+        return commentRepository.delete(commentId)
+            .map(CommentEntity::convertToDto)
+            .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
     }
 }

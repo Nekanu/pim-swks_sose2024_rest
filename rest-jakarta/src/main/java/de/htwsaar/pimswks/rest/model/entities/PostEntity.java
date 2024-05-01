@@ -11,6 +11,7 @@
 package de.htwsaar.pimswks.rest.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.htwsaar.pimswks.rest.model.PostDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -122,5 +123,9 @@ public class PostEntity implements Serializable {
 
     public void setComments(List<CommentEntity> comments) {
         this.comments = comments;
+    }
+
+    public PostDto convertToDto() {
+        return new PostDto(postId, author.getUserId(), created, updated, title, content);
     }
 }

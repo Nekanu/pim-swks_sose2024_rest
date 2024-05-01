@@ -25,25 +25,31 @@ import java.util.Objects;
  */
 public class PostDto implements Serializable {
 
-    @JsonProperty("author")
+    @Min(1)
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
+    private final long id;
+
     @Min(value = 1, message = "Author ID must be greater than 0")
+    @JsonProperty("author")
     private final long author;
 
-    @JsonProperty("created")
+    @JsonProperty(value = "created", access = JsonProperty.Access.READ_ONLY)
     private final Date created;
-    @JsonProperty("updated")
+
+    @JsonProperty(value = "updated", access = JsonProperty.Access.READ_ONLY)
     private final Date updated;
 
-    @JsonProperty("title")
     @NotBlank
     @Length(message = "Title must be between 3 and 512 characters long", min = 3, max = 512)
+    @JsonProperty("title")
     private final String title;
 
-    @JsonProperty("content")
     @NotBlank
+    @JsonProperty("content")
     private final String content;
 
-    public PostDto(long author, Date created, Date updated, String title, String content) {
+    public PostDto(long id, long author, Date created, Date updated, String title, String content) {
+        this.id = id;
         this.author = author;
         this.created = created;
         this.updated = updated;

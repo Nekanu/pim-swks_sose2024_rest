@@ -10,6 +10,7 @@
 
 package de.htwsaar.pimswks.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
@@ -23,12 +24,21 @@ import java.util.Objects;
  */
 public class UserDto implements Serializable {
     @Min(1)
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private final long id;
+
+    @JsonProperty(value = "created", access = JsonProperty.Access.READ_ONLY)
     private final Date created;
+
+    @JsonProperty(value = "updated", access = JsonProperty.Access.READ_ONLY)
     private final Date updated;
+
     @Pattern(regexp = "^[a-zA-Z0-9]{3,64}$")
+    @JsonProperty(value = "username")
     private final String username;
+
     @Email
+    @JsonProperty(value = "email")
     private final String email;
 
     public UserDto(long id, Date created, Date updated, String username, String email) {

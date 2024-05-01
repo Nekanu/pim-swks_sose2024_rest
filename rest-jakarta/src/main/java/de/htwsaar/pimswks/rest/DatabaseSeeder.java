@@ -29,15 +29,16 @@ public class DatabaseSeeder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseSeeder.class);
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "default", name = "default")
     private EntityManager entityManager;
 
     @PostConstruct
     @Transactional
     public void trySeedDatabase() {
         LOGGER.info("Seeding database");
+
         try {
-            addDefaultUsers();
+            //addDefaultUsers();
         } catch (Exception e) {
             LOGGER.error("Error seeding database", e);
             System.exit(1);
@@ -46,7 +47,7 @@ public class DatabaseSeeder {
 
     public void addDefaultUsers() {
 
-        final UserEntity deletedUser = new UserEntity(1, "DeletedUser", "", Date.from(Instant.MIN), Date.from(Instant.MIN));
+        final UserEntity deletedUser = new UserEntity(1, "DeletedUser", "", Date.from(Instant.EPOCH), Date.from(Instant.EPOCH));
         checkIfUserExistsAndUpdate(deletedUser);
     }
 

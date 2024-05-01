@@ -10,9 +10,58 @@
 
 package de.htwsaar.pimswks.rest.repositories;
 
-import jakarta.ejb.Stateless;
+import de.htwsaar.pimswks.rest.model.entities.CommentEntity;
+import jakarta.data.repository.Repository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Stateless
+import java.util.List;
+import java.util.Optional;
+
+@Repository
 public class CommentRepository {
-    // TODO: Implement
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommentRepository.class);
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public Optional<CommentEntity> findById(long commentId) {
+        LOGGER.info("Finding comment by ID: {}", commentId);
+        return Optional.ofNullable(entityManager.find(CommentEntity.class, commentId));
+    }
+
+    public List<CommentEntity> readAll(long postId, int offset, int limit) {
+        LOGGER.info("Reading all comments for post: {}", postId);
+        return entityManager.createQuery("SELECT c FROM CommentEntity c WHERE c.post.id = :postId", CommentEntity.class)
+            .setParameter("postId", postId)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+    }
+
+    public CommentEntity create(final CommentEntity comment) {
+        LOGGER.info("Creating new comment");
+        entityManager.persist(comment);
+        return comment;
+    }
+
+    public CommentEntity update(final CommentEntity comment) {
+        LOGGER.info("Updating comment: {}", comment.getId());
+        return entityManager.merge(comment);
+    }
+
+    public Optional<CommentEntity> delete(long commentId) {
+        LOGGER.info("Deleting comment: {}", commentId);
+        CommentEntity comment = entityManager.find(CommentEntity.class, commentId);
+
+        if (comment == null) {
+            LOGGER.warn("Comment with ID {} could not be deleted: Not found", commentId);
+            return Optional.empty();
+        }
+        entityManager.remove(comment);
+        return Optional.of(comment);
+    }
 }

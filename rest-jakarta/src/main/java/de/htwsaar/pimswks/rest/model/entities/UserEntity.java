@@ -11,13 +11,14 @@
 package de.htwsaar.pimswks.rest.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.htwsaar.pimswks.rest.model.UserDto;
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,9 +28,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "users", uniqueConstraints = {
-    @UniqueConstraint(name = "uc_userentity_username_email", columnNames = {"username", "email"})
-})
+@Cacheable
+@Table(name = "users")
 public class UserEntity implements Serializable {
 
     @Id
@@ -59,12 +59,6 @@ public class UserEntity implements Serializable {
     public Date updated;
 
     public UserEntity() {
-    }
-
-    public UserEntity(long userId, String username, String email) {
-        this.username = username;
-        this.email = email;
-        this.userId = userId;
     }
 
     public UserEntity(long userId, String username, String email, Date createdAt, Date updatedAt) {
@@ -113,5 +107,9 @@ public class UserEntity implements Serializable {
 
     public void setEmail(@Email String email) {
         this.email = email;
+    }
+
+    public UserDto convertToDto() {
+        return new UserDto(userId, created, updated, username, email);
     }
 }

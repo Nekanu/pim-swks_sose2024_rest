@@ -14,14 +14,54 @@ import de.htwsaar.pimswks.rest.model.entities.PostEntity;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class PostRepository {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostRepository.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(PostEntity post) {
+    public Optional<PostEntity> findById(long postId) {
+        LOGGER.info("Finding post by ID: {}", postId);
+        return Optional.ofNullable(entityManager.find(PostEntity.class, postId));
+    }
+
+    public PostEntity create(PostEntity post) {
+        LOGGER.info("Creating post: {}", post.title);
         entityManager.persist(post);
+        return post;
+    }
+
+    public List<PostEntity> readAll(int offset, int limit) {
+        LOGGER.info("Reading all posts");
+        return entityManager.createQuery("SELECT p FROM PostEntity p", PostEntity.class)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+    }
+
+    public PostEntity update(PostEntity post) {
+        LOGGER.info("Updating post: {}", post.title);
+        return entityManager.merge(post);
+    }
+
+    public Optional<PostEntity> delete(long postId) {
+        LOGGER.info("Deleting post: {}", postId);
+        PostEntity post = entityManager.find(PostEntity.class, postId);
+
+        if (post == null) {
+            LOGGER.warn("Post with ID {} could not be deleted: Not found", postId);
+            return Optional.empty();
+        }
+
+        entityManager.remove(post);
+        return Optional.of(post);
     }
 }

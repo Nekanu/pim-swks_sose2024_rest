@@ -10,6 +10,7 @@
 
 package de.htwsaar.pimswks.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
@@ -20,12 +21,24 @@ import java.util.Objects;
  * DTO for {@link de.htwsaar.pimswks.rest.model.entities.CommentEntity}
  */
 public class CommentDto implements Serializable {
-    private final Date created;
-    private final Date updated;
+
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private final Long id;
+
+    @JsonProperty(value = "created", access = JsonProperty.Access.READ_ONLY)
+    private final Date created;
+
+    @JsonProperty(value = "updated", access = JsonProperty.Access.READ_ONLY)
+    private final Date updated;
+
+    @JsonProperty(value = "postId", access = JsonProperty.Access.READ_ONLY)
     private final long postId;
+
+    @JsonProperty(value = "authorId")
     private final long authorId;
+
     @NotBlank
+    @JsonProperty(value = "content")
     private final String content;
 
     public CommentDto(Date created, Date updated, Long id, long postId, long authorId, String content) {

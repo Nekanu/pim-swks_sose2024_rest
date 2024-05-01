@@ -10,6 +10,8 @@
 
 package de.htwsaar.pimswks.rest.model.entities;
 
+import de.htwsaar.pimswks.rest.model.CommentDto;
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "comments")
+@Cacheable
 public class CommentEntity implements Serializable {
 
     @Column(name = "created")
@@ -84,5 +87,9 @@ public class CommentEntity implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public CommentDto convertToDto() {
+        return new CommentDto(created, updated, id, post.getPostId(), author.getUserId(), content);
     }
 }

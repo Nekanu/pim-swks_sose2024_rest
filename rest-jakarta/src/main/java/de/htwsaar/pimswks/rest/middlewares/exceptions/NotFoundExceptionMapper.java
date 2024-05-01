@@ -10,22 +10,18 @@
 
 package de.htwsaar.pimswks.rest.middlewares.exceptions;
 
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Provider
-public class GenericExceptionsMapper implements ExceptionMapper<Exception> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericExceptionsMapper.class);
+public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
 
     @Override
-    public Response toResponse(Exception exception) {
-        LOGGER.error("An exception occurred", exception);
-        return Response.serverError()
+    public Response toResponse(NotFoundException exception) {
+        return Response.status(Response.Status.NOT_FOUND)
             .entity(exception.getMessage())
             .type(MediaType.TEXT_PLAIN_TYPE)
             .build();

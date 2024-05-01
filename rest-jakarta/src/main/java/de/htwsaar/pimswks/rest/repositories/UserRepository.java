@@ -12,6 +12,7 @@ package de.htwsaar.pimswks.rest.repositories;
 
 import de.htwsaar.pimswks.rest.model.entities.UserEntity;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
@@ -32,30 +33,35 @@ public class UserRepository {
         return Optional.ofNullable(entityManager.find(UserEntity.class, userId));
     }
 
-    public UserEntity create(UserEntity user) {
+    public UserEntity create(final UserEntity user) throws EntityExistsException {
         LOGGER.info("Creating user: {}", user.username);
         entityManager.persist(user);
         return user;
     }
 
-    public UserEntity read(long userId) {
-        LOGGER.info("Reading user: {}", userId);
-        return entityManager.find(UserEntity.class, userId);
-    }
-
     public List<UserEntity> readAll(int offset, int limit) {
         LOGGER.info("Reading all users");
-        return entityManager.createQuery("SELECT u FROM UserEntity u", UserEntity.class).getResultList();
+        return entityManager.createQuery("SELECT u FROM UserEntity u", UserEntity.class)
+            .setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
     }
 
-    public UserEntity update(UserEntity user) {
+    public UserEntity update(final UserEntity user) {
         LOGGER.info("Updating user: {}", user.username);
         return entityManager.merge(user);
     }
 
-    public void delete(long userId) {
+    public Optional<UserEntity> delete(long userId) {
         LOGGER.info("Deleting user: {}", userId);
         UserEntity user = entityManager.find(UserEntity.class, userId);
+
+        if (user == null) {
+            LOGGER.warn("User with ID {} could not be deleted: Not found", userId);
+            return Optional.empty();
+        }
+
         entityManager.remove(user);
+        return Optional.of(user);
     }
 }
