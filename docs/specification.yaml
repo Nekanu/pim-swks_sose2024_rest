@@ -109,6 +109,8 @@ components:
             description: Forbidden
         BadRequestError:
             description: Bad Request
+        NotFoundError:
+            description: Not Found
 
 
 paths:
@@ -172,6 +174,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '404':
+                    description: If the post does not exist
         put:
             summary: Update a post by ID
             operationId: updatePostById
@@ -204,6 +208,8 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '403':
                     $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post does not exist
         delete:
             summary: Delete a post by ID
             operationId: deletePostById
@@ -230,6 +236,8 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '403':
                     $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post does not exist
     
     /users:
         get:
@@ -292,6 +300,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '404':
+                    description: If the user does not exist
         put:
             summary: Update a user by ID
             operationId: updateUserById
@@ -324,6 +334,8 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '403':
                     $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the user does not exist
         delete:
             summary: Delete a user by ID
             operationId: deleteUserById
@@ -350,6 +362,8 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '403':
                     $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the user does not exist
     
     /posts/{id}/comments:
         get:
@@ -384,6 +398,8 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/Comment'
+                '404':
+                    description: If the post does not exist
         post:
             summary: Create a new comment for a post
             operationId: createCommentForPost
@@ -416,6 +432,8 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '403':
                     $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post does not exist
     
     /posts/{postId}/comments/{commentId}:
         get:
@@ -445,6 +463,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '404':
+                    description: If the post or comment does not exist
         put:
             summary: Update a comment by ID for a post
             operationId: updateCommentForPostById
@@ -484,6 +504,8 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '403':
                     $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post or comment does not exist
         delete:
             summary: Delete a comment by ID for a post
             operationId: deleteCommentForPostById
@@ -517,6 +539,8 @@ paths:
                     $ref: '#/components/responses/UnauthorizedError'
                 '403':
                     $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post or comment does not exist
 
     /users/{id}/comments:
         get:
@@ -542,3 +566,5 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/Comment'
+                '404':
+                    description: If the user does not exist
