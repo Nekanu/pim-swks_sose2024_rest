@@ -23,23 +23,26 @@ import java.util.Objects;
 public class CommentDto implements Serializable {
 
     @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
-    private final Long id;
+    private Long id;
 
     @JsonProperty(value = "created", access = JsonProperty.Access.READ_ONLY)
-    private final Date created;
+    private Date created;
 
     @JsonProperty(value = "updated", access = JsonProperty.Access.READ_ONLY)
-    private final Date updated;
+    private Date updated;
 
     @JsonProperty(value = "postId", access = JsonProperty.Access.READ_ONLY)
-    private final long postId;
+    private long postId;
 
     @JsonProperty(value = "authorId")
-    private final long authorId;
+    private long authorId;
 
     @NotBlank
     @JsonProperty(value = "content")
-    private final String content;
+    private String content;
+
+    public CommentDto() {
+    }
 
     public CommentDto(Date created, Date updated, Long id, long postId, long authorId, String content) {
         this.created = created;
@@ -54,24 +57,48 @@ public class CommentDto implements Serializable {
         return created;
     }
 
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
     public Date getUpdated() {
         return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public long getPostId() {
         return postId;
+    }
+
+    public void setPostId(long postId) {
+        this.postId = postId;
     }
 
     public long getAuthorId() {
         return authorId;
     }
 
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public void setContent(@NotBlank String content) {
+        this.content = content;
     }
 
     @Override

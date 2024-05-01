@@ -3,11 +3,6 @@ WORKDIR /build
 COPY . .
 RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
 
-ENV DATABASE_USER=blog
-ENV DATABASE_PASSWORD=blog
-ENV DATABASE_NAME=blog
-ENV DATABASE_HOST=database
-
 FROM quay.io/wildfly/wildfly:27.0.0.Final-jdk17 AS final
 COPY --from=build /build/rest-jakarta/target/rest-jakarta*.war /opt/jboss/wildfly/standalone/deployments/
 

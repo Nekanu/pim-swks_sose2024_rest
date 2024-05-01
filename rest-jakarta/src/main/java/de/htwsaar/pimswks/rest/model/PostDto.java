@@ -25,28 +25,30 @@ import java.util.Objects;
  */
 public class PostDto implements Serializable {
 
-    @Min(1)
     @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
-    private final long id;
+    private long id;
 
     @Min(value = 1, message = "Author ID must be greater than 0")
     @JsonProperty("author")
-    private final long author;
+    private long author;
 
     @JsonProperty(value = "created", access = JsonProperty.Access.READ_ONLY)
-    private final Date created;
+    private Date created;
 
     @JsonProperty(value = "updated", access = JsonProperty.Access.READ_ONLY)
-    private final Date updated;
+    private Date updated;
 
     @NotBlank
     @Length(message = "Title must be between 3 and 512 characters long", min = 3, max = 512)
     @JsonProperty("title")
-    private final String title;
+    private String title;
 
     @NotBlank
     @JsonProperty("content")
-    private final String content;
+    private String content;
+
+    public PostDto() {
+    }
 
     public PostDto(long id, long author, Date created, Date updated, String title, String content) {
         this.id = id;
@@ -57,24 +59,52 @@ public class PostDto implements Serializable {
         this.content = content;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(@Min(1) long id) {
+        this.id = id;
+    }
+
     public long getAuthor() {
         return author;
+    }
+
+    public void setAuthor(@Min(value = 1, message = "Author ID must be greater than 0") long author) {
+        this.author = author;
     }
 
     public Date getCreated() {
         return created;
     }
 
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
     public Date getUpdated() {
         return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(@NotBlank @Length(message = "Title must be between 3 and 512 characters long", min = 3, max = 512) String title) {
+        this.title = title;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public void setContent(@NotBlank String content) {
+        this.content = content;
     }
 
     @Override

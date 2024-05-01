@@ -11,7 +11,7 @@
 package de.htwsaar.pimswks.rest.repositories;
 
 import de.htwsaar.pimswks.rest.model.entities.CommentEntity;
-import jakarta.data.repository.Repository;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Stateless
 public class CommentRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentRepository.class);

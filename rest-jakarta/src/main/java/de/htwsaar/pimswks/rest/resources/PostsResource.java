@@ -16,6 +16,7 @@ import de.htwsaar.pimswks.rest.repositories.PostRepository;
 import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -37,18 +38,21 @@ public class PostsResource {
     public static final String PATH = "/posts";
     private static final String POST_NOT_FOUND_MESSAGE_TEMPLATE = "Post with ID \"%d\" not found";
 
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
-
     @Inject
-    public PostsResource(PostRepository postRepository, UserRepository userRepository) {
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
+    private PostRepository postRepository;
+    @Inject
+    private UserRepository userRepository;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<PostDto> getPosts() {
+        return getPosts(100, 0);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PostDto> getPosts(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+    public List<PostDto> getPosts(@QueryParam("limit") int limit,
+                                  @QueryParam("offset") int offset) {
         return postRepository.readAll(offset, limit).stream()
             .map(PostEntity::convertToDto)
             .toList();
@@ -58,7 +62,7 @@ public class PostsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public Response createPost(final PostDto post) {
+    public Response createPost(@Valid final PostDto post) {
         return userRepository.findById(post.getAuthor())
             .map(userEntity -> {
                 PostEntity postEntity = new PostEntity();
@@ -85,7 +89,8 @@ public class PostsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public PostDto updatePost(@PathParam("postId") long postId, final PostDto post) {
+    public PostDto updatePost(@PathParam("postId") long postId,
+                              @Valid final PostDto post) {
         return postRepository.findById(postId)
             .map(postEntity -> {
                 postEntity.setTitle(post.getTitle());

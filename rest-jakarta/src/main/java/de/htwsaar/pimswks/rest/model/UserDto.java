@@ -23,23 +23,26 @@ import java.util.Objects;
  * DTO for {@link de.htwsaar.pimswks.rest.model.entities.UserEntity}
  */
 public class UserDto implements Serializable {
-    @Min(1)
+
     @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
-    private final long id;
+    private long id;
 
     @JsonProperty(value = "created", access = JsonProperty.Access.READ_ONLY)
-    private final Date created;
+    private Date created;
 
     @JsonProperty(value = "updated", access = JsonProperty.Access.READ_ONLY)
-    private final Date updated;
+    private Date updated;
 
     @Pattern(regexp = "^[a-zA-Z0-9]{3,64}$")
     @JsonProperty(value = "username")
-    private final String username;
+    private String username;
 
     @Email
     @JsonProperty(value = "email")
-    private final String email;
+    private String email;
+
+    public UserDto() {
+    }
 
     public UserDto(long id, Date created, Date updated, String username, String email) {
         this.id = id;
@@ -53,20 +56,40 @@ public class UserDto implements Serializable {
         return id;
     }
 
+    public void setId(@Min(1) long id) {
+        this.id = id;
+    }
+
     public Date getCreated() {
         return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     public Date getUpdated() {
         return updated;
     }
 
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
     public String getUsername() {
         return username;
     }
 
+    public void setUsername(@Pattern(regexp = "^[a-zA-Z0-9]{3,64}$") String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(@Email String email) {
+        this.email = email;
     }
 
     @Override

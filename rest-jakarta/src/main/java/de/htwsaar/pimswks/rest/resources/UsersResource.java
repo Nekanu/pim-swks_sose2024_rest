@@ -15,6 +15,7 @@ import de.htwsaar.pimswks.rest.model.entities.UserEntity;
 import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -37,16 +38,19 @@ public class UsersResource {
     public static final String PATH = "/users";
     private static final String USER_NOT_FOUND_MESSAGE_TEMPLATE = "User with ID \"%d\" not found";
 
-    private final UserRepository userRepository;
-
     @Inject
-    public UsersResource(final UserRepository userRepository) {
-        this.userRepository = userRepository;
+    private UserRepository userRepository;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<UserDto> getUsers() {
+        return getUsers(100, 0);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDto> getUsers(@QueryParam("limit") final int limit, @QueryParam("offset") final int offset) {
+    public List<UserDto> getUsers(@QueryParam("limit") final int limit,
+                                  @QueryParam("offset") final int offset) {
         return userRepository.readAll(offset, limit).stream()
             .map(UserEntity::convertToDto)
             .toList();
@@ -56,7 +60,7 @@ public class UsersResource {
     @Secured
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(final UserDto user) {
+    public Response createUser(@Valid final UserDto user) {
 
         final UserEntity createUserEntity = new UserEntity();
         createUserEntity.setUsername(user.getUsername());
@@ -80,7 +84,8 @@ public class UsersResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public UserDto updateUser(@PathParam("userId") long userId, final UserDto user) {
+    public UserDto updateUser(@PathParam("userId") long userId,
+                              @Valid final UserDto user) {
         return userRepository.findById(userId)
             .map(userEntity -> {
                 userEntity.setUsername(user.getUsername());

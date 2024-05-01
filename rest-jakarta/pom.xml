@@ -29,8 +29,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <junit.version>5.11.0-M1</junit.version>
         <jersey.version>4.0.0-M1</jersey.version>
     </properties>
@@ -41,12 +42,6 @@
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <version>11.0.0-M2</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.data</groupId>
-            <artifactId>jakarta.data-api</artifactId>
-            <version>1.0.0-RC1</version>
         </dependency>
 
         <dependency>
@@ -133,6 +128,10 @@
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>5.0.0.Final</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

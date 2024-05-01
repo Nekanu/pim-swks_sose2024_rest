@@ -17,6 +17,7 @@ import de.htwsaar.pimswks.rest.repositories.PostRepository;
 import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -39,20 +40,24 @@ public class PostsIdCommentsResource {
     public static final String PATH = "/posts/{postId}/comments";
     private static final String COMMENT_NOT_FOUND_MESSAGE_TEMPLATE = "Comment with ID %d not found";
 
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
-
     @Inject
-    public PostsIdCommentsResource(PostRepository postRepository, UserRepository userRepository, CommentRepository commentRepository) {
-        this.postRepository = postRepository;
-        this.userRepository = userRepository;
-        this.commentRepository = commentRepository;
+    private PostRepository postRepository;
+    @Inject
+    private UserRepository userRepository;
+    @Inject
+    private CommentRepository commentRepository;
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<CommentDto> getComments(@PathParam("postId") long postId) {
+        return getComments(postId, 100, 0);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CommentDto> getComments(@PathParam("postId") long postId, @QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+    public List<CommentDto> getComments(@PathParam("postId") long postId,
+                                        @QueryParam("limit") int limit,
+                                        @QueryParam("offset") int offset) {
         return commentRepository.readAll(postId, offset, limit).stream()
             .map(CommentEntity::convertToDto)
             .toList();
@@ -62,7 +67,8 @@ public class PostsIdCommentsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public Response createComment(@PathParam("postId") long postId, final CommentDto comment) {
+    public Response createComment(@PathParam("postId") long postId,
+                                  @Valid final CommentDto comment) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setPost(postRepository.findById(postId)
             .orElseThrow(() -> new NotFoundException(String.format("No post with ID %d found", postId))));
@@ -88,7 +94,8 @@ public class PostsIdCommentsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public CommentDto updateComment(@PathParam("commentId") long commentId, final CommentDto comment) {
+    public CommentDto updateComment(@PathParam("commentId") long commentId,
+                                    @Valid final CommentDto comment) {
         CommentEntity commentEntity = commentRepository.findById(commentId)
             .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
         commentEntity.setContent(comment.getContent());

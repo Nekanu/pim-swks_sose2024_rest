@@ -16,6 +16,8 @@ services:
             - "18080:8080"
             - "9990:9990"
         environment:
+            API_KEY: 044eb66a-a587-4fd4-8501-b40420ac8cdc
+            
             DATABASE_HOST: mariadb
             DATABASE_PORT: 3306
             DATABASE_NAME: blog

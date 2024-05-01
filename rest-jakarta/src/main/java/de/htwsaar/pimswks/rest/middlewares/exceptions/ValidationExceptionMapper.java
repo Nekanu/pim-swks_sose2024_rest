@@ -10,7 +10,7 @@
 
 package de.htwsaar.pimswks.rest.middlewares.exceptions;
 
-import jakarta.ws.rs.core.MediaType;
+import jakarta.validation.ValidationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
@@ -18,16 +18,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Provider
-public class GenericExceptionsMapper implements ExceptionMapper<Exception> {
+public class ValidationExceptionMapper implements ExceptionMapper<ValidationException> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GenericExceptionsMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValidationExceptionMapper.class);
 
     @Override
-    public Response toResponse(Exception exception) {
-        LOGGER.error("An unhandled exception occurred", exception);
-        return Response.serverError()
+    public Response toResponse(ValidationException exception) {
+        LOGGER.warn("Model failed validation: \"{}\"", exception.getMessage());
+
+        return Response.status(Response.Status.BAD_REQUEST)
             .entity(exception.getMessage())
-            .type(MediaType.TEXT_PLAIN_TYPE)
+            .type("text/plain")
             .build();
     }
 }
