@@ -10,17 +10,44 @@
 
 package de.htwsaar.pimswks.rest.resources;
 
+import de.htwsaar.pimswks.rest.model.entities.UserEntity;
+import de.htwsaar.pimswks.rest.repositories.UserRepository;
+import de.htwsaar.pimswks.rest.security.Secured;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-@Path("/test")
-public class TestResource {
+@Path(UsersResource.PATH)
+public class UsersResource {
+
+    public static final String PATH = "/users";
+
+    private final UserRepository userRepository;
+
+    @Inject
+    public UsersResource(final UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String test() {
-        return "Test";
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUsers(@QueryParam("limit") final int limit, @QueryParam("offset") final int offset) {
+        // TODO: Implement
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @POST
+    @Secured
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createUser(final UserEntity user) {
+        // TODO: Implement
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

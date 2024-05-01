@@ -8,19 +8,25 @@
  * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package de.htwsaar.pimswks.rest.resources;
+package de.htwsaar.pimswks.rest.middlewares.exceptions;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Path("/test")
-public class TestResource {
+@Provider
+public class GenericExceptionsMapper implements ExceptionMapper<Exception> {
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String test() {
-        return "Test";
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenericExceptionsMapper.class);
+
+    @Override
+    public Response toResponse(Exception exception) {
+        LOGGER.error("An exception occurred", exception);
+        return Response.serverError()
+            .entity(exception.getMessage())
+            .type("text/plain")
+            .build();
     }
 }

@@ -97,6 +97,19 @@ components:
                     format: uint64
                     example: 1
                     description: ID of the post the comment is for
+    responses:
+        UnauthorizedError:
+            description: Unauthorized
+            headers:
+                WWW-Authenticate:
+                    description: The authentication method that should be used
+                    schema:
+                        type: string
+        ForbiddenError:
+            description: Forbidden
+        BadRequestError:
+            description: Bad Request
+
 
 paths:
     /posts:
@@ -134,8 +147,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
     /posts/{id}:
         get:
             summary: Returns a post by ID
@@ -185,8 +200,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
         delete:
             summary: Delete a post by ID
             operationId: deletePostById
@@ -209,8 +226,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
     
     /users:
         get:
@@ -247,8 +266,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
     
     /users/{id}:
         get:
@@ -299,8 +320,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
         delete:
             summary: Delete a user by ID
             operationId: deleteUserById
@@ -323,8 +346,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
     
     /posts/{id}/comments:
         get:
@@ -340,6 +365,16 @@ paths:
                     schema:
                         type: integer
                         format: int64
+                -   name: limit
+                    in: query
+                    required: false
+                    description: Maximum number of comments to return
+                    schema:
+                        type: integer
+                        format: int32
+                        minimum: 1
+                        maximum: 100
+                        default: 50
             responses:
                 '200':
                     description: OK
@@ -377,8 +412,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
     
     /posts/{postId}/comments/{commentId}:
         get:
@@ -443,8 +480,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
         delete:
             summary: Delete a comment by ID for a post
             operationId: deleteCommentForPostById
@@ -474,8 +513,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
 
     /users/{id}/comments:
         get:

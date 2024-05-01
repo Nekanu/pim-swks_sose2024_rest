@@ -10,17 +10,45 @@
 
 package de.htwsaar.pimswks.rest.resources;
 
+import de.htwsaar.pimswks.rest.model.PostDto;
+import de.htwsaar.pimswks.rest.repositories.PostRepository;
+import de.htwsaar.pimswks.rest.repositories.UserRepository;
+import de.htwsaar.pimswks.rest.security.Secured;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
-@Path("/test")
-public class TestResource {
+@Path("/posts")
+public class PostsResource {
+
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
+
+    @Inject
+    public PostsResource(PostRepository postRepository, UserRepository userRepository) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
+    }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String test() {
-        return "Test";
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPosts(@QueryParam("limit") int limit, @QueryParam("offset") int offset) {
+        // TODO: Implement
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured
+    public Response createPost(PostDto post) {
+        // TODO: Implement
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }
