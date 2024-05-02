@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Rest_AspNet.Controllers;
+namespace Rest.AspNet.Controllers;
 
 [ApiController]
 [Route("test")]

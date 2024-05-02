@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rest-aspnet", "rest-aspnet\rest-aspnet.csproj", "{ED89CC2B-0594-434A-B924-CC13CD49D873}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rest.AspNet", "Rest.AspNet\Rest.AspNet.csproj", "{ED89CC2B-0594-434A-B924-CC13CD49D873}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

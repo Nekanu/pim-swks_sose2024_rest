@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Rest_AspNet.Models;
+using Rest.AspNet.Models;
 
-namespace Rest_AspNet.Data;
+namespace Rest.AspNet.Data;
 
 public class BlogContext : DbContext {
     
