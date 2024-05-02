@@ -1,0 +1,22 @@
+\chapter{Implementierung}
+
+\section{Jakarta EE}
+
+\subsection{Probleme}
+
+\subsubsection*{Abhängigkeiten vom Webserver}
+
+Jakarta EE benötigt einen seperaten Webserver, um die Anwendung auszuführen. 
+Die Konfiguration und das Setup sind stark abhängig von dem verwendeten Webserver. 
+In diesem Fall wurde \texttt{Wildfly} verwendet.
+
+Die meisten Webserver sind nicht dazu ausgelegt, eine einzelne Anwendung zu hosten.
+Dies macht es schwieriger, die Anwendung in einer Microservice-Architektur zu betreiben.
+
+\paragraph{Persistenz-Konfiguration}
+
+Da Wildfly eine eigene Datenbank-Verwaltung hat, kann die Anwendung nicht einfach
+
+\begin{itemize}
+    \item Konfiguration und Setup ist stark abhängig von dem verwendeten Webserver (in diesem Fall \texttt{Wildfly})
+\end{itemize}
