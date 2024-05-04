@@ -7,17 +7,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["rest-aspnet/rest-aspnet.csproj", "rest-aspnet/"]
-RUN dotnet restore "rest-aspnet/rest-aspnet.csproj"
+COPY ["Rest.AspNet/Rest.AspNet.csproj", "Rest.AspNet/"]
+RUN dotnet restore "rest-aspnet/Rest.AspNet.csproj"
 COPY . .
-WORKDIR "/src/rest-aspnet"
-RUN dotnet build "rest-aspnet.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Rest.AspNet"
+RUN dotnet build "Rest.AspNet.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "rest-aspnet.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Rest.AspNet.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "rest-aspnet.dll"]
+ENTRYPOINT ["dotnet", "Rest.AspNet.dll"]

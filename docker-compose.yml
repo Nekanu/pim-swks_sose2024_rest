@@ -45,7 +45,7 @@ services:
     rest-aspnet:
         build:
             context: ./rest-aspnet
-            dockerfile: rest-aspnet/Dockerfile
+            dockerfile: Rest.AspNet/Dockerfile
         container_name: rest-aspnet
         ports:
             - "38080:8080"
