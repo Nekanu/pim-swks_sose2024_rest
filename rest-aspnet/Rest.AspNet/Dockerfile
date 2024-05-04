@@ -7,7 +7,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Rest.AspNet/Rest.AspNet.csproj", "Rest.AspNet/"]
+COPY ["Rest.AspNet/Rest.AspNet.csproj", "rest-aspnet/"]
 RUN dotnet restore "rest-aspnet/Rest.AspNet.csproj"
 COPY . .
 WORKDIR "/src/Rest.AspNet"
