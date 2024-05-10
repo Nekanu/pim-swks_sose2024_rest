@@ -1,6 +1,13 @@
-\chapter{Implementierung}
+\chapter{Implementierung Webserver}
 
 \section{Jakarta EE}
+
+Als Referenzimplementierung für dieses Projekt wurde \texttt{Jakarta EE} verwendet.
+Jakarta EE ist eine Sammlung von Spezifikationen für Enterprise-Java-Anwendungen.
+Es ist eine Weiterentwicklung von Java EE, welches von Oracle entwickelt wurde.
+Jakarta EE wird von der Eclipse Foundation entwickelt und ist Open Source.
+
+\todo{Write}
 
 \subsection{Probleme}
 
@@ -8,15 +15,19 @@
 
 Jakarta EE benötigt einen seperaten Webserver, um die Anwendung auszuführen. 
 Die Konfiguration und das Setup sind stark abhängig von dem verwendeten Webserver. 
-In diesem Fall wurde \texttt{Wildfly} verwendet.
+In diesem Fall wurde \texttt{Wildfly}\footnote{\url{https://www.wildfly.org/} | Abgerufen: 2024-05-10, 12:44 Uhr} verwendet.
 
-Die meisten Webserver sind nicht dazu ausgelegt, eine einzelne Anwendung zu hosten.
+Die meisten dieser Webserver sind nicht dazu ausgelegt, eine einzelne Anwendung zu hosten.
 Dies macht es schwieriger, die Anwendung in einer Microservice-Architektur zu betreiben.
 
-\paragraph{Persistenz-Konfiguration}
-
-Da Wildfly eine eigene Datenbank-Verwaltung hat, kann die Anwendung nicht einfach
+Um dieses Projekt mit diesem Webserver zu betreiben, ist es notwendig, ein Konfigurations-Skript zu schreiben, welches in den Bauprozess des Docker-Abbilds integriert wird.
 
 \begin{itemize}
     \item Konfiguration und Setup ist stark abhängig von dem verwendeten Webserver (in diesem Fall \texttt{Wildfly})
 \end{itemize}
+
+\section{Spring Boot}
+
+\todo{Write}
+\section{ASP.NET Core}
+\todo{Write}
