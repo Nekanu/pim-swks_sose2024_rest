@@ -4,7 +4,7 @@ info:
     description: PIM-SWKS SoSe2024 REST API
     version: 1.0.0
 servers:
-    -   url: 'http://127.0.0.1:{Port}/'
+    -   url: 'http://127.0.0.1:{Port}'
         description: Local development server
         variables:
             Port:
@@ -15,7 +15,7 @@ servers:
                     - '8080'
                 default: '18080'
                 description: The port number (18080 - rest-jakarta, 28080 - rest-springboot, 38080 - rest-aspnet)
-    -   url: 'https://pim-swks.nekanu.com/'
+    -   url: 'https://pim-swks.nekanu.com'
         description: Production server
 
 tags:
