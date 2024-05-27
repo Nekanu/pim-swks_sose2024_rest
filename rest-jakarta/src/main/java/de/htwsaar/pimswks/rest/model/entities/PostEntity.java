@@ -52,7 +52,7 @@ public class PostEntity implements Serializable {
     public String content;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "author_id", nullable = false, insertable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     public UserEntity author;
 
     @Column(name = "created")
@@ -127,5 +127,17 @@ public class PostEntity implements Serializable {
 
     public PostDto convertToDto() {
         return new PostDto(postId, author.getUserId(), created, updated, title, content);
+    }
+
+    @Override
+    public String toString() {
+        return "PostEntity{" +
+            "updated=" + updated +
+            ", created=" + created +
+            ", author=" + author.toString() +
+            ", content='" + content + '\'' +
+            ", title='" + title + '\'' +
+            ", postId=" + postId +
+            '}';
     }
 }

@@ -46,11 +46,11 @@ public class CommentEntity implements Serializable {
     private Long commentId;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false, updatable = false, insertable = false)
+    @JoinColumn(name = "post_id", nullable = false, updatable = false)
     private PostEntity post;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "author_id", nullable = false, insertable = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private UserEntity author;
 
     @Column(name = "content", nullable = false, columnDefinition = "LONGTEXT")

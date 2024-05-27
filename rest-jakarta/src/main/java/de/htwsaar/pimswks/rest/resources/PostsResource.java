@@ -20,12 +20,16 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 @Path(PostsResource.PATH)
 public class PostsResource {
 
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostsResource.class);
     public static final String PATH = "/posts";
     private static final String POST_NOT_FOUND_MESSAGE_TEMPLATE = "Post with ID \"%d\" not found";
 

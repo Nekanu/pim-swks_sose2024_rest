@@ -112,4 +112,15 @@ public class UserEntity implements Serializable {
     public UserDto convertToDto() {
         return new UserDto(userId, created, updated, username, email);
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+            "userId=" + userId +
+            ", username='" + username + '\'' +
+            ", email='" + email + '\'' +
+            ", created=" + created +
+            ", updated=" + updated +
+            '}';
+    }
 }
