@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. 
+ * Copyright (c) 2024.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
@@ -34,8 +34,8 @@ public class UsersResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDto> getUsers(@DefaultValue("100") @QueryParam("limit")  int limit,
-                                  @QueryParam("offset") final int offset) {        
+    public List<UserDto> getUsers(@DefaultValue("100") @QueryParam("limit") int limit,
+                                  @QueryParam("offset") final int offset) {
         return userRepository.readAll(offset, limit).stream()
             .map(UserEntity::convertToDto)
             .toList();
@@ -52,7 +52,10 @@ public class UsersResource {
         createUserEntity.setEmail(user.getEmail());
 
         final UserEntity createdUser = userRepository.create(createUserEntity);
-        return Response.created(URI.create(PATH + "/" + createdUser.userId)).build();
+        return Response.status(201)
+            .header("Location", PATH + "/" + createdUser.getUserId())
+            .entity(createdUser.convertToDto())
+            .build();
     }
 
     @GET

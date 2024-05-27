@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. 
+ * Copyright (c) 2024.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
@@ -17,16 +17,7 @@ import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -43,15 +34,10 @@ public class PostsResource {
     @Inject
     private UserRepository userRepository;
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<PostDto> getPosts() {
-        return getPosts(100, 0);
-    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<PostDto> getPosts(@QueryParam("limit") int limit,
+    public List<PostDto> getPosts(@DefaultValue("100") @QueryParam("limit") int limit,
                                   @QueryParam("offset") int offset) {
         return postRepository.readAll(offset, limit).stream()
             .map(PostEntity::convertToDto)
@@ -63,16 +49,19 @@ public class PostsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
     public Response createPost(@Valid final PostDto post) {
-        return userRepository.findById(post.getAuthor())
+        return userRepository.findById(post.getAuthorId())
             .map(userEntity -> {
                 PostEntity postEntity = new PostEntity();
                 postEntity.setTitle(post.getTitle());
                 postEntity.setContent(post.getContent());
                 postEntity.setAuthor(userEntity);
                 postRepository.create(postEntity);
-                return Response.ok(postEntity.convertToDto()).build();
+                return Response.status(201)
+                    .header("Location", PATH + "/" + postEntity.getPostId())
+                    .entity(postEntity.convertToDto())
+                    .build();
             })
-            .orElseThrow(() -> new NotFoundException(String.format("User with ID \"%d\" not found", post.getAuthor())));
+            .orElseThrow(() -> new NotFoundException(String.format("User with ID \"%d\" not found", post.getAuthorId())));
     }
 
     @GET

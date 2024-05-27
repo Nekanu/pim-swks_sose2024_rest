@@ -29,8 +29,8 @@ public class PostDto implements Serializable {
     private long id;
 
     @Min(value = 1, message = "Author ID must be greater than 0")
-    @JsonProperty("author")
-    private long author;
+    @JsonProperty(value = "authorId", required = true)
+    private long authorId;
 
     @JsonProperty(value = "created", access = JsonProperty.Access.READ_ONLY)
     private Date created;
@@ -50,9 +50,9 @@ public class PostDto implements Serializable {
     public PostDto() {
     }
 
-    public PostDto(long id, long author, Date created, Date updated, String title, String content) {
+    public PostDto(long id, long authorId, Date created, Date updated, String title, String content) {
         this.id = id;
-        this.author = author;
+        this.authorId = authorId;
         this.created = created;
         this.updated = updated;
         this.title = title;
@@ -67,12 +67,12 @@ public class PostDto implements Serializable {
         this.id = id;
     }
 
-    public long getAuthor() {
-        return author;
+    public long getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(@Min(value = 1, message = "Author ID must be greater than 0") long author) {
-        this.author = author;
+    public void setAuthorId(@Min(value = 1, message = "Author ID must be greater than 0") long authorId) {
+        this.authorId = authorId;
     }
 
     public Date getCreated() {
@@ -109,7 +109,7 @@ public class PostDto implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(author, created, updated, title, content);
+        return Objects.hash(authorId, created, updated, title, content);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class PostDto implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PostDto entity = (PostDto) o;
-        return Objects.equals(this.author, entity.author) &&
+        return Objects.equals(this.authorId, entity.authorId) &&
             Objects.equals(this.created, entity.created) &&
             Objects.equals(this.updated, entity.updated) &&
             Objects.equals(this.title, entity.title) &&
@@ -127,7 +127,7 @@ public class PostDto implements Serializable {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" +
-            "authorUserId = " + author + ", " +
+            "authorUserId = " + authorId + ", " +
             "created = " + created + ", " +
             "updated = " + updated + ", " +
             "title = " + title + ", " +

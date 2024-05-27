@@ -43,7 +43,7 @@ public class CommentEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Long commentId;
 
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false, updatable = false, insertable = false)
@@ -65,12 +65,12 @@ public class CommentEntity implements Serializable {
         this.author = author;
     }
 
-    public Long getId() {
-        return id;
+    public Long getCommentId() {
+        return commentId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCommentId(Long id) {
+        this.commentId = id;
     }
 
     public PostEntity getPost() {
@@ -90,6 +90,6 @@ public class CommentEntity implements Serializable {
     }
 
     public CommentDto convertToDto() {
-        return new CommentDto(created, updated, id, post.getPostId(), author.getUserId(), content);
+        return new CommentDto(created, updated, commentId, post.getPostId(), author.getUserId(), content);
     }
 }

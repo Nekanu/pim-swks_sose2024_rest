@@ -49,7 +49,7 @@ public class CommentRepository {
     }
 
     public CommentEntity update(final CommentEntity comment) {
-        LOGGER.info("Updating comment: {}", comment.getId());
+        LOGGER.info("Updating comment: {}", comment.getCommentId());
         return entityManager.merge(comment);
     }
 

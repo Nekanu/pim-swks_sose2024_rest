@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024. 
+ * Copyright (c) 2024.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  *
@@ -18,20 +18,10 @@ import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.net.URI;
 import java.util.List;
 
 @Path(PostsIdCommentsResource.PATH)
@@ -49,14 +39,8 @@ public class PostsIdCommentsResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CommentDto> getComments(@PathParam("postId") long postId) {
-        return getComments(postId, 100, 0);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public List<CommentDto> getComments(@PathParam("postId") long postId,
-                                        @QueryParam("limit") int limit,
+                                        @DefaultValue("100") @QueryParam("limit") int limit,
                                         @QueryParam("offset") int offset) {
         return commentRepository.readAll(postId, offset, limit).stream()
             .map(CommentEntity::convertToDto)
@@ -77,7 +61,10 @@ public class PostsIdCommentsResource {
         commentEntity.setContent(comment.getContent());
 
         CommentEntity createdComment = commentRepository.create(commentEntity);
-        return Response.created(URI.create(PATH + "/" + createdComment.getId())).build();
+        return Response.status(201)
+            .header("Location", PATH.replace("{postId}", String.valueOf(postId)) + "/" + createdComment.getCommentId())
+            .entity(createdComment.convertToDto())
+            .build();
     }
 
     @GET
