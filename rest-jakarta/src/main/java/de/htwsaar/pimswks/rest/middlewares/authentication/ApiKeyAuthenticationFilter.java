@@ -52,7 +52,7 @@ public class ApiKeyAuthenticationFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext containerRequestContext) {
         String apiKeyHeader = containerRequestContext.getHeaderString(APIKEY_HEADER);
         
-        if (apiKeyHeader != null) {
+        if (apiKeyHeader == null) {
             rejectRequestWithUnauthorized(containerRequestContext);
         }
         

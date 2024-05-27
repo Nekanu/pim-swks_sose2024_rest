@@ -16,16 +16,7 @@ import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -43,14 +34,8 @@ public class UsersResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDto> getUsers() {
-        return getUsers(100, 0);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<UserDto> getUsers(@QueryParam("limit") final int limit,
-                                  @QueryParam("offset") final int offset) {
+    public List<UserDto> getUsers(@DefaultValue("100") @QueryParam("limit")  int limit,
+                                  @QueryParam("offset") final int offset) {        
         return userRepository.readAll(offset, limit).stream()
             .map(UserEntity::convertToDto)
             .toList();
