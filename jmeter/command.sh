@@ -1,2 +1,3 @@
 #!/usr/bin/env sh
-jmeter -n -t testplan/TestPlan.jmx -l results/result.jtl -j logs/log.log
+timestamp=$(date +%Y-%m-%d_%H-%M-%S)
+jmeter -n -t testplan/TestPlan.jmx -l "results/result_$timestamp.jtl" -j "logs/log_$timestamp.log"
