@@ -302,3 +302,7 @@ gradle-app.setting
 # Eclipse Core
 # JDT-specific (Eclipse Java Development Tools)
 /.idea/
+
+jmeter/results/
+jmeter/logs/
+jmeter/listeners/
