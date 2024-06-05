@@ -29,6 +29,7 @@ public class PostsIdCommentsResource {
 
     public static final String PATH = "/posts/{postId}/comments";
     private static final String COMMENT_NOT_FOUND_MESSAGE_TEMPLATE = "Comment with ID %d not found";
+    private static final String USER_NOT_FOUND_MESSAGE_TEMPLATE = "User with ID %d not found";
 
     @Inject
     private PostRepository postRepository;
@@ -57,7 +58,7 @@ public class PostsIdCommentsResource {
         commentEntity.setPost(postRepository.findById(postId)
             .orElseThrow(() -> new NotFoundException(String.format("No post with ID %d found", postId))));
         commentEntity.setAuthor(userRepository.findById(comment.getAuthorId())
-            .orElseThrow(() -> new NotFoundException(String.format("No user with ID %d found", comment.getAuthorId()))));
+            .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MESSAGE_TEMPLATE, comment.getAuthorId()))));
         commentEntity.setContent(comment.getContent());
 
         CommentEntity createdComment = commentRepository.create(commentEntity);
@@ -98,5 +99,15 @@ public class PostsIdCommentsResource {
         return commentRepository.delete(commentId)
             .map(CommentEntity::convertToDto)
             .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
+    }
+
+    @GET
+    @Path("{userId}/comments")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<CommentDto> getUserComments(@PathParam("userId") long userId) {
+        userRepository.findById(userId)
+            .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MESSAGE_TEMPLATE, userId)));
+        
+        return commentRepository.filterByUserId(userId).stream().map(CommentEntity::convertToDto).toList();
     }
 }

@@ -64,4 +64,11 @@ public class CommentRepository {
         entityManager.remove(comment);
         return Optional.of(comment);
     }
+    
+    public List<CommentEntity> filterByUserId(long userId) {
+        LOGGER.info("Filtering comments by user ID: {}", userId);
+        return entityManager.createQuery("SELECT c FROM CommentEntity c WHERE c.author.id = :userId", CommentEntity.class)
+            .setParameter("userId", userId)
+            .getResultList();
+    }
 }
