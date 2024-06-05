@@ -10,7 +10,6 @@
 
 package de.htwsaar.pimswks.rest.repositories;
 
-import de.htwsaar.pimswks.rest.model.entities.CommentEntity;
 import de.htwsaar.pimswks.rest.model.entities.PostEntity;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -18,7 +17,6 @@ import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
