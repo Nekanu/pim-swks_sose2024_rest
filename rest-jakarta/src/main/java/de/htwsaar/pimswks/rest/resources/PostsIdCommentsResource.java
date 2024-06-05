@@ -100,14 +100,4 @@ public class PostsIdCommentsResource {
             .map(CommentEntity::convertToDto)
             .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
     }
-
-    @GET
-    @Path("{userId}/comments")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<CommentDto> getUserComments(@PathParam("userId") long userId) {
-        userRepository.findById(userId)
-            .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MESSAGE_TEMPLATE, userId)));
-        
-        return commentRepository.filterByUserId(userId).stream().map(CommentEntity::convertToDto).toList();
-    }
 }
