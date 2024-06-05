@@ -11,10 +11,13 @@
 package de.htwsaar.pimswks.rest.resources;
 
 import de.htwsaar.pimswks.rest.model.CommentDto;
+import de.htwsaar.pimswks.rest.model.PostDto;
 import de.htwsaar.pimswks.rest.model.UserDto;
 import de.htwsaar.pimswks.rest.model.entities.CommentEntity;
+import de.htwsaar.pimswks.rest.model.entities.PostEntity;
 import de.htwsaar.pimswks.rest.model.entities.UserEntity;
 import de.htwsaar.pimswks.rest.repositories.CommentRepository;
+import de.htwsaar.pimswks.rest.repositories.PostRepository;
 import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
@@ -34,6 +37,9 @@ public class UsersResource {
 
     @Inject
     private UserRepository userRepository;
+    
+    @Inject
+    private PostRepository postRepository;
     
     @Inject
     private CommentRepository commentRepository;
@@ -97,6 +103,16 @@ public class UsersResource {
         return userRepository.delete(userId)
             .map(UserEntity::convertToDto)
             .orElseThrow(() -> new NotFoundException(USER_NOT_FOUND_MESSAGE_TEMPLATE));
+    }
+
+    @GET
+    @Path("{userId}/posts")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<PostDto> getUserPosts(@PathParam("userId") long userId) {
+        userRepository.findById(userId)
+            .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MESSAGE_TEMPLATE, userId)));
+
+        return postRepository.filterByUserId(userId).stream().map(PostEntity::convertToDto).toList();
     }
 
     @GET
