@@ -5,21 +5,12 @@
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
         <collectionProp name="Arguments.arguments"/>
       </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
     </TestPlan>
     <hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
-        <intProp name="ThreadGroup.num_threads">1</intProp>
-        <intProp name="ThreadGroup.ramp_time">1</intProp>
-        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
-        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
-        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
-          <stringProp name="LoopController.loops">1</stringProp>
-          <boolProp name="LoopController.continue_forever">false</boolProp>
-        </elementProp>
-      </ThreadGroup>
-      <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
-        <intProp name="ThreadGroup.num_threads">10</intProp>
+        <stringProp name="ThreadGroup.num_threads">${InitUserCount}</stringProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -30,12 +21,12 @@
       </ThreadGroup>
       <hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller">
-          <stringProp name="IfController.condition">false</stringProp>
+          <stringProp name="IfController.condition">true</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Init: Create Users">
             <stringProp name="HTTPSampler.path">users</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -46,8 +37,8 @@
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-	&quot;username&quot;: &quot;Testuser${__threadNum}&quot;,&#xd;
-	&quot;email&quot;: &quot;Testemail${__threadNum}@test.com&quot;&#xd;
+	&quot;username&quot;: &quot;InitUser${__threadNum}&quot;,&#xd;
+	&quot;email&quot;: &quot;Initemail${__threadNum}@test.com&quot;&#xd;
 }</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
@@ -89,18 +80,91 @@
                   <connectTime>true</connectTime>
                 </value>
               </objProp>
-              <stringProp name="filename">${__groovy(vars.get(&quot;PathBase&quot;))}/listeners/CreateUsers.jtl</stringProp>
+              <stringProp name="filename">${__groovy(vars.get(&quot;PathBase&quot;))}/listeners/InitUsers.jtl</stringProp>
             </ResultCollector>
+            <hashTree/>
+          </hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="InitPostsLoopController">
+            <stringProp name="LoopController.loops">${InitPostsPerUserCount}</stringProp>
+          </LoopController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Init: Create Posts">
+              <stringProp name="HTTPSampler.path">posts</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&#xd;
+	&quot;title&quot;:&quot;InitPost${InitPostCounter} (Thread:${__threadNum}) (Repetition:${__jm__InitPostsLoopController__idx})&quot;,&#xd;
+	&quot;content&quot;:&quot;InitContent ${InitPostCounter}&quot;,&#xd;
+	&quot;authorId&quot;:&quot;${__threadNum}&quot;&#xd;
+}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+                <boolProp name="ResultCollector.error_logging">false</boolProp>
+                <objProp>
+                  <name>saveConfig</name>
+                  <value class="SampleSaveConfiguration">
+                    <time>true</time>
+                    <latency>true</latency>
+                    <timestamp>true</timestamp>
+                    <success>true</success>
+                    <label>true</label>
+                    <code>true</code>
+                    <message>true</message>
+                    <threadName>true</threadName>
+                    <dataType>true</dataType>
+                    <encoding>false</encoding>
+                    <assertions>true</assertions>
+                    <subresults>true</subresults>
+                    <responseData>false</responseData>
+                    <samplerData>false</samplerData>
+                    <xml>false</xml>
+                    <fieldNames>true</fieldNames>
+                    <responseHeaders>false</responseHeaders>
+                    <requestHeaders>false</requestHeaders>
+                    <responseDataOnError>false</responseDataOnError>
+                    <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                    <assertionsResultsToSave>0</assertionsResultsToSave>
+                    <bytes>true</bytes>
+                    <sentBytes>true</sentBytes>
+                    <url>true</url>
+                    <threadCounts>true</threadCounts>
+                    <idleTime>true</idleTime>
+                    <connectTime>true</connectTime>
+                  </value>
+                </objProp>
+                <stringProp name="filename">${__groovy(vars.get(&quot;PathBase&quot;))}/listeners/InitPosts.jtl</stringProp>
+              </ResultCollector>
+              <hashTree/>
+            </hashTree>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="InitPostCounter">
+              <stringProp name="CounterConfig.start">0</stringProp>
+              <stringProp name="CounterConfig.end"></stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">InitPostCounter</stringProp>
+              <stringProp name="CounterConfig.format"></stringProp>
+              <boolProp name="CounterConfig.per_user">false</boolProp>
+            </CounterConfig>
             <hashTree/>
           </hashTree>
         </hashTree>
         <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action">
           <intProp name="ActionProcessor.action">1</intProp>
           <intProp name="ActionProcessor.target">0</intProp>
-          <stringProp name="ActionProcessor.duration">10</stringProp>
+          <stringProp name="ActionProcessor.duration">2000</stringProp>
         </TestAction>
         <hashTree/>
-        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="LoopController">
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="CreatePostsLoopController">
           <stringProp name="LoopController.loops">5</stringProp>
         </LoopController>
         <hashTree>
@@ -108,7 +172,7 @@
             <stringProp name="ConstantTimer.delay">3000</stringProp>
           </ConstantTimer>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Test: Create Posts">
             <stringProp name="HTTPSampler.path">posts</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -119,7 +183,7 @@
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-	&quot;title&quot;:&quot;${title} (Thread:${__threadNum}) (Repetition:${__jm__LoopController__idx})&quot;,&#xd;
+	&quot;title&quot;:&quot;${title} (Thread:${__threadNum}) (Repetition:${__jm__CreatePostsLoopController__idx})&quot;,&#xd;
 	&quot;content&quot;:&quot;${content}&quot;,&#xd;
 	&quot;authorId&quot;:&quot;${RandomUserId}&quot;&#xd;
 }</stringProp>
@@ -132,7 +196,7 @@
             <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config">
               <stringProp name="delimiter">,</stringProp>
               <stringProp name="fileEncoding"></stringProp>
-              <stringProp name="filename">/home/Moritz/Workspace/Java/SWKS/pim-swks_sose2024_rest/jmeter/testplan/create-post-data.csv</stringProp>
+              <stringProp name="filename">${__groovy(vars.get(&quot;PathBase&quot;))}//testplan/create-post-data.csv</stringProp>
               <boolProp name="ignoreFirstLine">false</boolProp>
               <boolProp name="quotedData">false</boolProp>
               <boolProp name="recycle">true</boolProp>
@@ -180,7 +244,7 @@
             <hashTree/>
           </hashTree>
         </hashTree>
-        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random Variable">
+        <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random Variable" enabled="true">
           <stringProp name="maximumValue">10</stringProp>
           <stringProp name="minimumValue">1</stringProp>
           <stringProp name="outputFormat"></stringProp>
@@ -190,7 +254,7 @@
         </RandomVariableConfig>
         <hashTree/>
       </hashTree>
-      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
         <collectionProp name="HeaderManager.headers">
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">X-API-KEY</stringProp>
@@ -203,7 +267,7 @@
         </collectionProp>
       </HeaderManager>
       <hashTree/>
-      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults">
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
         <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
         <stringProp name="HTTPSampler.port">18080</stringProp>
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
@@ -219,14 +283,14 @@
             <stringProp name="Argument.value">/home/Moritz/Workspace/Java/SWKS/pim-swks_sose2024_rest/jmeter/</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="PathResults" elementType="Argument">
-            <stringProp name="Argument.name">PathResults</stringProp>
-            <stringProp name="Argument.value">${__groovy(vars.get(&quot;PathBase&quot;))}/results/</stringProp>
+          <elementProp name="InitUserCount" elementType="Argument">
+            <stringProp name="Argument.name">InitUserCount</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="PathLogs" elementType="Argument">
-            <stringProp name="Argument.name">PathLogs</stringProp>
-            <stringProp name="Argument.value">${__groovy(vars.get(&quot;PathBase&quot;))}/logs</stringProp>
+          <elementProp name="InitPostsPerUserCount" elementType="Argument">
+            <stringProp name="Argument.name">InitPostsPerUserCount</stringProp>
+            <stringProp name="Argument.value">5</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
