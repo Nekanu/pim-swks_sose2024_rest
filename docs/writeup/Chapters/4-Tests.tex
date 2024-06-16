@@ -38,13 +38,19 @@ Ein Testplan ist ein Baum, der Elemente aus verschiedenen Kategorien enthalten k
           \\Kontrolliert wie oft Sampler ausgeführt werden, insbesondere wie viele Anfragen nebenläufig stattfinden.
     \item Logic Controllers\hfill
           \\Beeinflusst die Ausführungsreihenfolge der Sampler.
-    \item Sampler\hfill
+    \item Samplers\hfill
           \\Die auszuführenden Tests, z.B. HTTP-Anfragen.
     \item Listener\hfill
           \\Speichert die Ergebnisse eines Samplers und kann diese im GUI-Modus grafisch aufbereiten.
     \item Configuration Elements\hfill
           \\Stellen Daten für Tests zur Verfügung, unter anderem durch Definition von Konstanten, Erzeugung zufälliger Werte oder Einlesen externen Dateien.
 \end{itemize}
+
+Grundsätzlich beinhaltet ein Testplan \texttt{Thread Groups}.
+Jeder Thread steht für einen User.
+\texttt{Thread Groups} enthalten \texttt{Sampler}, welche von jeden Thread von oben nach unten ausgeführt werden.
+\texttt{Samplers} enthalten (einen) Listener, welcher die Ergebnisse aufzeichnet und im GUI-Modus visualisieren kann.
+\texttt{Configuration Elements} werden nach Bedarf als Kinder von \texttt{Thread Groups} oder \texttt{Samplers} definiert.
 
 
 \subsection{Verwendung von Variablen}
@@ -83,8 +89,8 @@ so werden diese im CLI-Modus korrekt aufgelöst.
 kann JMeter die relative Pfade jedoch nicht auflösen.
 
 Um trotzdem absolute Pfade zu vermeiden,
-kann ein Basispfad als Konstante definiert werden.
-Pfade werden dann als Zusammensetzung dieser Variable und des gewünschten relativen Pfades definiert.
+kann ein absoluter Basispfad als Konstante definiert werden.
+Pfade werden dann als Konkatenation dieser Variable und des gewünschten relativen Pfades definiert.
 Somit muss nur der Basispfad angepasst werden, um die Ausführung auf einer anderen Maschine zu ermöglichen.
 
 \begin{lstlisting}[caption=Workaround zur Angabe relativer Pfade]
