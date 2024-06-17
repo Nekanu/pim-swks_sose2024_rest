@@ -4,7 +4,7 @@ stages:
   - deploy
 
 test-jmeter:
-  image: justb4/jmeter:latest
+  image: anasoid/jmeter:latest
   stage: test
   services: 
     - docker:dind
@@ -13,6 +13,8 @@ test-jmeter:
     - docker compose up -d
   script:
     - jmeter -n -t testplan/TestPlan.jmx -l "results/result.jtl" -j "logs/log.log"
+  after_script:
+    - docker compose down
   artifacts:
     untracked: false
     when: always
