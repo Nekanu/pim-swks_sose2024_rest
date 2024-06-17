@@ -1,0 +1,27 @@
+stages:
+  - build
+  - test
+  - deploy
+
+test-jmeter:
+  image: justb4/jmeter:latest
+  stage: test
+  services: 
+    - docker:dind
+  before_script:
+    - docker compose build
+    - docker compose up -d
+  script:
+    - jmeter -n -t testplan/TestPlan.jmx -l "results/result.jtl" -j "logs/log.log"
+  artifacts:
+    untracked: false
+    when: always
+    access: all
+    paths:
+      - results/result.jtl
+      - logs/log.log
+  only:
+      - main
+      - develop
+  tags:
+      - dind
