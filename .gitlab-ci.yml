@@ -32,10 +32,10 @@ test-jmeter:
 
 automated-api-tests:
   stage: test
-  image: cimg/base:2024.06
+  image: docker:26.1.4
 
   services:
-    - docker:dind
+    - docker:26.1.4-dind
 
   before_script:
     # Installing Postman CLI
