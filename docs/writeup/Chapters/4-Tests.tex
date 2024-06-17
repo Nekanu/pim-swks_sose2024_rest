@@ -4,7 +4,7 @@
 
 Anders als funktionale Tests inspizieren Load Tests die Performance des Systems unter hoher Last,
 beispielsweise bei vielen nebenläufigen Zugriffen.
-Zur Umsetzung dieser Tests wird JMeter & 5.4.1 & \url{https://jmeter.apache.org/} eingesetzt.
+Zur Umsetzung dieser Tests wird JMeter \& 5.4.1 \& \url{https://jmeter.apache.org/} eingesetzt.
 
 \subsection{Starten von JMeter}
 
@@ -57,14 +57,14 @@ Jeder Thread steht für einen User.
 
 JMeter ermöglicht die Definition von Variablen, um Tests besser wart- und anpassbar zu machen.
 Hierzu kann etwas das Configuration Element \texttt{User Defined Variables} eingesetzt werden.
-In diesem Element definierte Konstanten können grundsätzlich mit der Syntax \textt{\$\{Variablenname\}} referenziert werden.
+In diesem Element definierte Konstanten können grundsätzlich mit der Syntax \texttt{\$\{Variablenname\}} referenziert werden.
 
 Leider wird diese Art Variablen zu referenzieren nicht überall unterstützt.
 Beispielsweise funktioniert dies im Körper einer HTTP Request und zur Angabe der Widerholungen eines Tests,
 aber nicht bei der Angabe von Dateipfaden.
 
 In solchen Fällen kann der Wert einer Variable oftmals mit Groovy\footnote{\url{https://www.groovy-lang.org/}} ausgelesen werden.
-Dies ist mit folgender Syntax möglich: \texttt{\$\{__groovy(vars.get("Variablenname"))\}}.
+Dies ist mit folgender Syntax möglich: \texttt{\$\{\_\_groovy(vars.get("Variablenname"))\}}.
 Leider funktioniert auch dieser Ansatz nicht in allen Fällen.
 
 Der Einsatz von Groovy ermöglicht die Berechnung von Konstanten in Abhängigkeit von anderen Konstanten.
