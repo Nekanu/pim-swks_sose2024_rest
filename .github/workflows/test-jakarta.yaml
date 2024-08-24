@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B test --file pom.xml
   
   test_postman:
     needs: maven-test
@@ -47,7 +47,7 @@ jobs:
       - uses: hoverkraft-tech/compose-action@v2.0.1
         with:
           services: "rest-jakarta"
-                
+
       - name: Run JMeter Tests
         uses: rbhadti94/apache-jmeter-action@v0.5.0
         with:

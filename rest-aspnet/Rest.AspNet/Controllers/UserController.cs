@@ -10,12 +10,12 @@ namespace Rest.AspNet.Controllers;
 [Route("users")]
 public class UserController(BlogContext context) : ControllerBase {
     
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers() {
         return await context.Users.ToListAsync();
     }
     
-    [Authorize]
     [HttpPost]
     public async Task<ActionResult<User>> CreateUser([FromBody] User user) {
         context.Users.Add(user);
@@ -23,6 +23,7 @@ public class UserController(BlogContext context) : ControllerBase {
         return CreatedAtAction(nameof(CreateUser), new { id = user.Id }, user);
     }
     
+    [AllowAnonymous]
     [HttpGet("{userId}")]
     public async Task<ActionResult<User>> GetUserById(ulong userId) {
         User? existingUser = await context.Users.FindAsync(userId);
@@ -33,7 +34,6 @@ public class UserController(BlogContext context) : ControllerBase {
         return existingUser;
     }
     
-    [Authorize]
     [HttpPut("{userId}")]
     public async Task<ActionResult<User>> UpdateUser(ulong userId, [FromBody] User user) {
 
@@ -49,7 +49,6 @@ public class UserController(BlogContext context) : ControllerBase {
         return NoContent();
     }
     
-    [Authorize]
     [HttpDelete("{userId}")]
     public async Task<ActionResult<User>> DeleteUser(ulong userId) {
         
@@ -60,7 +59,4 @@ public class UserController(BlogContext context) : ControllerBase {
         
         return context.Users.Remove(existingUser).Entity;
     }
-    
-    
-    
 }

@@ -10,23 +10,25 @@ public class User {
     [ReadOnly(true)]
     [JsonPropertyName("id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public ulong Id { get; set; }
+    public ulong Id { get; init; }
     
     [Required]
+    [MaxLength(255)]
     [JsonPropertyName("username")]
-    [RegularExpression("^[a-zA-Z0-9_]{3,}$")]
-    public string Username { get; set; }
+    [RegularExpression("^[a-zA-Z0-9_]{3,255}$")]
+    public required string Username { get; set; }
     
     [Required]
+    [MaxLength(255)]
     [JsonPropertyName("email")]
     [EmailAddress]
-    public string Email { get; set; }
+    public required string Email { get; set; }
     
     [ReadOnly(true)]
     [Timestamp]
-    public DateTime Created { get; set; }
+    public DateTime Created { get; init; }
     
     [ReadOnly(true)]
     [Timestamp]
-    public DateTime Updated { get; set; }
+    public DateTime Updated { get; init; }
 }

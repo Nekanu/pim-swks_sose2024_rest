@@ -10,18 +10,16 @@ public class Post {
     [ReadOnly(true)]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [JsonPropertyName("id")]
-    public ulong Id { get; set; }
+    public ulong Id { get; init; }
     
     [Required]
     [MaxLength(512)]
-    public string Title { get; set; }
+    public required string Title { get; set; }
     
     [Required]
     [MaxLength(int.MaxValue)]
-    public string Content { get; set; }
+    public required string Content { get; set; }
     
-    public ulong AuthorId { get; set; }
-    
-    public virtual User Author { get; set; }
-    
+    public required ulong AuthorId { get; init; }
+    public User Author { get; init; }
 }
