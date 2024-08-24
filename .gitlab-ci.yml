@@ -3,13 +3,13 @@ stages:
   - test
   - deploy
 
+image: docker:26.1.4
+
+services:
+  - docker:26.1.4-dind
+
 test-jmeter:
-  image: 
-    name: justb4/jmeter:latest
-    entrypoint: ["/bin/sh"]
   stage: test
-  services: 
-    - docker:dind
   before_script:
     - docker compose build
     - docker compose up -d
@@ -30,23 +30,23 @@ test-jmeter:
   tags:
       - dind
 
-automated-api-tests:
+test-postman:
   stage: test
-  image: docker:26.1.4
-
-  services:
-    - docker:26.1.4-dind
-
   before_script:
     # Installing Postman CLI
-    - curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+    - docker info
+    - docker-compose --version
+    - wget -O - "https://dl-cli.pstmn.io/install/linux64.sh" | sh
     - docker compose build
     - docker compose up -d
-
   script:
     # Login using your Postman API keys
     - postman login --with-api-key $POSTMAN_API_KEY
     - postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5"
-
   after_script:
     - docker compose down
+  only:
+    - main
+    - develop
+  tags:
+    - dind
