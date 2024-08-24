@@ -1,14 +1,14 @@
-name: Automated API tests using Postman CLI
+name: Postman API Tests
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - "Maven tests"
     branches:
       - main
       - develop
-  pull_request:
-    branches:
-      - main
-      - develop
+    types:
+      - completed
 
 jobs:
     test-postman:
