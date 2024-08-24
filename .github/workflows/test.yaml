@@ -22,7 +22,7 @@ jobs:
   
   test_postman:
     needs: maven-test
-    runs-on: docker:dind
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: hoverkraft-tech/compose-action@v2.0.1
@@ -51,7 +51,7 @@ jobs:
       - name: Run JMeter Tests
         uses: rbhadti94/apache-jmeter-action@v0.5.0
         with:
-          testFilePath: test/jmeter/sample_test.jmx
+          testFilePath: jmeter/TestPlan.jmx
           outputReportsFolder: reports/
           args: "--loglevel INFO"
 
