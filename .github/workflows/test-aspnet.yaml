@@ -11,7 +11,7 @@ on:
 
 jobs:
   aspnet-test:
-    name: Run maven test
+    name: Run ASP.NET tests
     container:
       image: mcr.microsoft.com/dotnet/sdk:8.0
     runs-on: ubuntu-latest
@@ -32,7 +32,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: hoverkraft-tech/compose-action@v2.0.1
         with:
-          services: [ "rest-aspnet", "mariadb" ]
+          services:
+            - "rest-aspnet"
+            - "mariadb"
       - name: Install Postman CLI
         run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
@@ -51,7 +53,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: hoverkraft-tech/compose-action@v2.0.1
         with:
-          services: [ "rest-aspnet", "mariadb" ]
+          services:
+            - "rest-aspnet"
+            - "mariadb"
                 
       - name: Run JMeter Tests
         uses: rbhadti94/apache-jmeter-action@v0.5.0
