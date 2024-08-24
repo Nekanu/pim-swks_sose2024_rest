@@ -20,33 +20,29 @@ jobs:
       - name: Build with Maven
         run: mvn -B test --file pom.xml
   
-  test_postman:
+  test_postman_jakarta:
     needs: maven-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          services: "rest-jakarta"
       - name: Install Postman CLI
-        run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+        run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
       - name: Login to Postman CLI
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Start docker containers
+        run: docker compose up -d --build rest-jakarta
       - name: Run API tests
-        run: |
-          postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5"
-            # Lint your API using Postman CLI
-            postman api lint b7b7ccc8-57f5-41ee-b282-85889746455e
+        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5"
+      - name: Stop docker containers
+        run: docker compose down
   
-  test_jmeter:
+  test_jmeter_jakarta:
     needs: maven-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          services: "rest-jakarta"
+      - name: Start docker containers
+        run: docker compose up -d --build rest-aspnet mariadb
 
       - name: Run JMeter Tests
         uses: rbhadti94/apache-jmeter-action@v0.5.0
@@ -54,6 +50,8 @@ jobs:
           testFilePath: jmeter/TestPlan.jmx
           outputReportsFolder: reports/
           args: "--loglevel INFO"
+      - name: Stop docker containers
+        run: docker compose down
 
       - uses: actions/upload-artifact@v4
         with:
