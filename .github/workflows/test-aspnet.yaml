@@ -43,8 +43,8 @@ jobs:
       - name: Run API tests
         run: |
           postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5"
-            # Lint your API using Postman CLI
-            postman api lint b7b7ccc8-57f5-41ee-b282-85889746455e
+          # Lint your API using Postman CLI
+          postman api lint b7b7ccc8-57f5-41ee-b282-85889746455e
   
   test_jmeter:
     needs: aspnet-test
@@ -58,7 +58,7 @@ jobs:
             mariadb
                 
       - name: Run JMeter Tests
-        uses: rbhadti94/apache-jmeter-action@v0.5.0
+        uses: rbhadti94/apache-jmeter-action@v0.7.0
         with:
           testFilePath: jmeter/TestPlan.jmx
           outputReportsFolder: reports/

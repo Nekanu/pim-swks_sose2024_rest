@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/docs/export" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-dynamic-html" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-html1" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-html2" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-markdown" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-plantuml" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-apache2" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-asciidoc" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-cwiki" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-jmeter" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/openapi-generated-mysql-schema" isTestSource="false" generated="true" />
+    </content>
+  </component>
+</module>
