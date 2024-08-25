@@ -45,11 +45,11 @@ jobs:
         run: docker compose up -d --build rest-aspnet mariadb
 
       - name: Run JMeter Tests
-        uses: rbhadti94/apache-jmeter-action@v0.5.0
+        uses: rbhadti94/apache-jmeter-action@v0.7.0
         with:
           testFilePath: jmeter/TestPlan.jmx
           outputReportsFolder: reports/
-          args: "--loglevel INFO"
+          args: "--loglevel INFO -Jport=18080"
       - name: Stop docker containers
         run: docker compose down
 
