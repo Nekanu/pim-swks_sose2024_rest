@@ -46,7 +46,7 @@ public class UserController(BlogContext context) : ControllerBase {
         existingUser.Email = user.Email;
         
         await context.SaveChangesAsync();
-        return NoContent();
+        return existingUser;
     }
     
     [HttpDelete("{userId}")]
@@ -57,7 +57,10 @@ public class UserController(BlogContext context) : ControllerBase {
             return NotFound();
         }
         
-        return context.Users.Remove(existingUser).Entity;
+        context.Users.Remove(existingUser);
+        await context.SaveChangesAsync();
+        
+        return existingUser;
     }
 
     [HttpGet("{userId}/posts")]

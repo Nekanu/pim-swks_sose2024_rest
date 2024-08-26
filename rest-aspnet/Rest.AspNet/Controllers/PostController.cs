@@ -46,7 +46,7 @@ public class PostController(BlogContext context) : ControllerBase {
         existingPost.Content = post.Content;
         
         await context.SaveChangesAsync();
-        return NoContent();
+        return existingPost;
     }
     
     [HttpDelete("{postId}")]
@@ -57,6 +57,9 @@ public class PostController(BlogContext context) : ControllerBase {
             return NotFound();
         }
         
-        return context.Posts.Remove(existingPost).Entity;
+        context.Posts.Remove(existingPost);
+        await context.SaveChangesAsync();
+        
+        return existingPost;
     }
 }

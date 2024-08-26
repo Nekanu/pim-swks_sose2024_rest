@@ -50,7 +50,7 @@ public class CommentController(BlogContext context) : ControllerBase {
         existingComment.Content = comment.Content;
         
         await context.SaveChangesAsync();
-        return NoContent();
+        return existingComment;
     }
     
     [HttpDelete("{commentId}")]
@@ -61,7 +61,10 @@ public class CommentController(BlogContext context) : ControllerBase {
             return NotFound();
         }
         
-        return context.Comments.Remove(existingComment).Entity;
+        context.Comments.Remove(existingComment);
+        await context.SaveChangesAsync();
+        
+        return existingComment;
     }
 
     private async Task<List<Comment>> GetPostComments(ulong postId)
