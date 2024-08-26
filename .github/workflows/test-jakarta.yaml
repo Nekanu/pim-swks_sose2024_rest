@@ -44,13 +44,16 @@ jobs:
       - uses: actions/checkout@v4
       - name: Start docker containers
         run: docker compose up -d --build rest-aspnet mariadb
-      - run: sleep 10
+      - name: install jmeter
+        run: |
+          java -version
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
+          unzip apache-jmeter-5.6.3.zip
+          cd apache-jmeter-5.6.3/bin
+          ./jmeter -v
+          pwd
       - name: Run JMeter Tests
-        uses: rbhadti94/apache-jmeter-action@v0.7.0
-        with:
-          testFilePath: jmeter/TestPlan.jmx
-          outputReportsFolder: reports/
-          args: "--loglevel INFO -Jport=18080"
+        run: ./jmeter -n -t $GITHUB_WORKSPACE/jmeter/TestPlan.jmx -l "results/result.jtl" -j "logs/jmeter.log" -e -f -o reports/ -Jport=18080
       - name: Stop docker containers
         run: docker compose down
 
