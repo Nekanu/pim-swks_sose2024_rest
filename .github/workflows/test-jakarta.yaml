@@ -15,6 +15,7 @@ jobs:
     container:
       image: maven:3.9.9-eclipse-temurin-21-alpine
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Build with Maven
@@ -23,6 +24,7 @@ jobs:
   test_postman_jakarta:
     needs: maven-test
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Start docker containers
@@ -33,13 +35,14 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - run: sleep 10
       - name: Run API tests
-        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5" --env-var "baseUrl=http://localhost:18080"
+        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5" --global-var "baseUrl=http://localhost:18080"
       - name: Stop docker containers
         run: docker compose down
   
   test_jmeter_jakarta:
     needs: maven-test
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Start docker containers

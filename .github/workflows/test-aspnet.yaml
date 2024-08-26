@@ -15,6 +15,7 @@ jobs:
     container:
       image: mcr.microsoft.com/dotnet/sdk:8.0
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: ./rest-aspnet
@@ -28,6 +29,7 @@ jobs:
   test_postman_aspnet:
     needs: aspnet-test
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Start docker containers
@@ -38,13 +40,14 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - run: sleep 10
       - name: Run API tests
-        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5" --env-var "baseUrl=http://localhost:38080"
+        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5" --global-var "baseUrl=http://localhost:38080"
       - name: Stop docker containers
         run: docker compose down
   
   test_jmeter_aspnet:
     needs: aspnet-test
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Start docker containers
