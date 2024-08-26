@@ -16,6 +16,13 @@ public class Comment {
     [MaxLength(int.MaxValue)]
     public required string Content { get; set; }
     
+    [Required]
+    [JsonPropertyName("authorId")]
     public required ulong AuthorId { get; init; }
-    public User Author { get; init; }
+    [JsonIgnore] public User? Author { get; init; }
+    
+    [Required]
+    [JsonPropertyName("postId")]
+    public required ulong PostId { get; init; }
+    [JsonIgnore] public Post? Post { get; init; }
 }

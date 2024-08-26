@@ -21,5 +21,5 @@ public class Post {
     public required string Content { get; set; }
     
     public required ulong AuthorId { get; init; }
-    public User Author { get; init; }
+    [JsonIgnore] public User? Author { get; init; }
 }

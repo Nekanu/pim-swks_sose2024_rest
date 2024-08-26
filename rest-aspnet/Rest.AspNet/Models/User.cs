@@ -23,12 +23,4 @@ public class User {
     [JsonPropertyName("email")]
     [EmailAddress]
     public required string Email { get; set; }
-    
-    [ReadOnly(true)]
-    [Timestamp]
-    public DateTime Created { get; init; }
-    
-    [ReadOnly(true)]
-    [Timestamp]
-    public DateTime Updated { get; init; }
 }

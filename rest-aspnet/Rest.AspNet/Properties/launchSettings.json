@@ -14,9 +14,15 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5098",
+      "applicationUrl": "http://localhost:8080",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_HOST": "localhost",
+        "DATABASE_PORT": 3306,
+        "DATABASE_NAME": "blog",
+        "DATABASE_USER": "blog",
+        "DATABASE_PASSWORD": "blog",
+        "API_KEY": "044eb66a-a587-4fd4-8501-b40420ac8cdc"
       }
     },
     "https": {
