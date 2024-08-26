@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Start docker containers
-        run: docker compose up -d rest-aspnet mariadb
+        run: docker compose up -d --build rest-aspnet mariadb
       - name: Install JMeter
         run: |
           java -version
