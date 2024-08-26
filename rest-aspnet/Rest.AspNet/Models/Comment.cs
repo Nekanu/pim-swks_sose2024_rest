@@ -21,8 +21,7 @@ public class Comment {
     public required ulong AuthorId { get; init; }
     [JsonIgnore] public User? Author { get; init; }
     
-    [Required]
     [JsonPropertyName("postId")]
-    public required ulong PostId { get; init; }
-    [JsonIgnore] public Post? Post { get; init; }
+    public ulong PostId { get; set; }
+    [JsonIgnore] public Post? Post { get; set; }
 }

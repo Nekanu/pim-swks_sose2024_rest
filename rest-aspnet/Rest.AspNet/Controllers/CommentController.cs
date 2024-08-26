@@ -22,6 +22,9 @@ public class CommentController(BlogContext context) : ControllerBase {
         if (existingPost == null) {
             return NotFound();
         }
+
+        comment.PostId = postId;
+        comment.Post = existingPost;
         
         context.Comments.Add(comment);
         await context.SaveChangesAsync();
