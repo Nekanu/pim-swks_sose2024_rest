@@ -38,7 +38,7 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - run: sleep 10
       - name: Run API tests
-        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5"
+        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5" --env-var "baseUrl=http://localhost" --env-var "port=38080"
       - name: Stop docker containers
         run: docker compose down
   
