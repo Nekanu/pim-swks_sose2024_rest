@@ -1,0 +1,1932 @@
+= PIM-SWKS SoSe2024 REST API
+team@openapitools.org
+1.0.0
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+:keywords: openapi, rest, PIM-SWKS SoSe2024 REST API
+:specDir: 
+:snippetDir: 
+:generator-template: v1 2019-12-20
+:info-url: https://openapi-generator.tech
+:app-name: PIM-SWKS SoSe2024 REST API
+
+[abstract]
+.Abstract
+PIM-SWKS SoSe2024 REST API
+
+
+// markup not found, no include::{specDir}intro.adoc[opts=optional]
+
+
+== Access
+
+
+* *APIKey* KeyParamName:     _X-API-KEY_,     KeyInQuery: _false_, KeyInHeader: _true_
+
+
+== Endpoints
+
+
+[.Comments]
+=== Comments
+
+
+[.createCommentForPost]
+==== createCommentForPost
+
+`POST /posts/{id}/comments`
+
+Create a new comment for a post
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{id\}/comments/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the post to create a comment for 
+| X
+| null
+| 
+
+|===
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| Comment
+|  <<Comment>>
+| X
+| 
+| 
+
+|===
+
+
+
+
+
+===== Return Type
+
+<<Comment>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 201
+| Created
+|  <<Comment>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+
+| 404
+| If the post does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/comments/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/comments/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{id}/comments/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{id\}/comments/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteCommentForPostById]
+==== deleteCommentForPostById
+
+`DELETE /posts/{postId}/comments/{commentId}`
+
+Delete a comment by ID for a post
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{postId\}/comments/\{commentId\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| postId
+| ID of the post to delete a comment for 
+| X
+| null
+| 
+
+| commentId
+| ID of the comment to delete 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+<<Comment>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<Comment>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+
+| 404
+| If the post or comment does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{postId\}/comments/\{commentId\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{postId\}/comments/\{commentId\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{postId}/comments/{commentId}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{postId\}/comments/\{commentId\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getCommentForPostById]
+==== getCommentForPostById
+
+`GET /posts/{postId}/comments/{commentId}`
+
+Returns a comment by ID for a post
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{postId\}/comments/\{commentId\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| postId
+| ID of the post to return a comment for 
+| X
+| null
+| 
+
+| commentId
+| ID of the comment to return 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+<<Comment>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<Comment>>
+
+
+| 404
+| If the post or comment does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{postId\}/comments/\{commentId\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{postId\}/comments/\{commentId\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{postId}/comments/{commentId}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{postId\}/comments/\{commentId\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getCommentsForPost]
+==== getCommentsForPost
+
+`GET /posts/{id}/comments`
+
+Returns all comments for a post
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{id\}/comments/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the post to return comments for 
+| X
+| null
+| 
+
+|===
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| limit
+| Maximum number of comments to return 
+| -
+| 50
+| 
+
+|===
+
+
+===== Return Type
+
+array[<<Comment>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+| List[<<Comment>>] 
+
+
+| 404
+| If the post does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/comments/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/comments/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{id}/comments/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{id\}/comments/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getCommentsForUser]
+==== getCommentsForUser
+
+`GET /users/{id}/comments`
+
+Returns all comments authored by this user
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/\{id\}/comments/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the user to return comments for 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+array[<<Comment>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+| List[<<Comment>>] 
+
+
+| 404
+| If the user does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/comments/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/comments/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/{id}/comments/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/\{id\}/comments/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updateCommentForPostById]
+==== updateCommentForPostById
+
+`PUT /posts/{postId}/comments/{commentId}`
+
+Update a comment by ID for a post
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{postId\}/comments/\{commentId\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| postId
+| ID of the post to update a comment for 
+| X
+| null
+| 
+
+| commentId
+| ID of the comment to update 
+| X
+| null
+| 
+
+|===
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| Comment
+|  <<Comment>>
+| X
+| 
+| 
+
+|===
+
+
+
+
+
+===== Return Type
+
+<<Comment>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<Comment>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+
+| 404
+| If the post or comment does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{postId\}/comments/\{commentId\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{postId\}/comments/\{commentId\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{postId}/comments/{commentId}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{postId\}/comments/\{commentId\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Posts]
+=== Posts
+
+
+[.createPost]
+==== createPost
+
+`POST /posts`
+
+Create a new post
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| Post
+|  <<Post>>
+| X
+| 
+| 
+
+|===
+
+
+
+
+
+===== Return Type
+
+<<Post>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 201
+| Created
+|  <<Post>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deletePostById]
+==== deletePostById
+
+`DELETE /posts/{id}`
+
+Delete a post by ID
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{id\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the post to delete 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+<<Post>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<Post>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+
+| 404
+| If the post does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{id}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{id\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getPostById]
+==== getPostById
+
+`GET /posts/{id}`
+
+Returns a post by ID
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{id\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the post to return 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+<<Post>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<Post>>
+
+
+| 404
+| If the post does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{id}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{id\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getPosts]
+==== getPosts
+
+`GET /posts`
+
+Returns all posts
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+array[<<Post>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+| List[<<Post>>] 
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getPostsForUser]
+==== getPostsForUser
+
+`GET /users/{id}/posts`
+
+Returns all posts authored by this user
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/\{id\}/posts/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the user to return posts for 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+array[<<Post>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+| List[<<Post>>] 
+
+
+| 404
+| If the user does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/posts/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/posts/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/{id}/posts/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/\{id\}/posts/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updatePostById]
+==== updatePostById
+
+`PUT /posts/{id}`
+
+Update a post by ID
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}posts/\{id\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the post to update 
+| X
+| null
+| 
+
+|===
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| Post
+|  <<Post>>
+| X
+| 
+| 
+
+|===
+
+
+
+
+
+===== Return Type
+
+<<Post>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<Post>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+
+| 404
+| If the post does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}posts/\{id\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :posts/{id}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}posts/\{id\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Users]
+=== Users
+
+
+[.createUser]
+==== createUser
+
+`POST /users`
+
+Create a new user
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| User
+|  <<User>>
+| X
+| 
+| 
+
+|===
+
+
+
+
+
+===== Return Type
+
+<<User>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 201
+| Created
+|  <<User>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteUserById]
+==== deleteUserById
+
+`DELETE /users/{id}`
+
+Delete a user by ID
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/\{id\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the user to delete 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+<<User>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<User>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+
+| 404
+| If the user does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/{id}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/\{id\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getCommentsForUser]
+==== getCommentsForUser
+
+`GET /users/{id}/comments`
+
+Returns all comments authored by this user
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/\{id\}/comments/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the user to return comments for 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+array[<<Comment>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+| List[<<Comment>>] 
+
+
+| 404
+| If the user does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/comments/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/comments/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/{id}/comments/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/\{id\}/comments/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getPostsForUser]
+==== getPostsForUser
+
+`GET /users/{id}/posts`
+
+Returns all posts authored by this user
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/\{id\}/posts/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the user to return posts for 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+array[<<Post>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+| List[<<Post>>] 
+
+
+| 404
+| If the user does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/posts/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/posts/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/{id}/posts/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/\{id\}/posts/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getUserById]
+==== getUserById
+
+`GET /users/{id}`
+
+Returns a user by ID
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/\{id\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the user to return 
+| X
+| null
+| 
+
+|===
+
+
+
+
+
+
+===== Return Type
+
+<<User>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<User>>
+
+
+| 404
+| If the user does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/{id}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/\{id\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getUsers]
+==== getUsers
+
+`GET /users`
+
+Returns all users
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+array[<<User>>]
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+| List[<<User>>] 
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updateUserById]
+==== updateUserById
+
+`PUT /users/{id}`
+
+Update a user by ID
+
+===== Description
+
+
+
+
+// markup not found, no include::{specDir}users/\{id\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| id
+| ID of the user to update 
+| X
+| null
+| 
+
+|===
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===
+|Name| Description| Required| Default| Pattern
+
+| User
+|  <<User>>
+| X
+| 
+| 
+
+|===
+
+
+
+
+
+===== Return Type
+
+<<User>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===
+| Code | Message | Datatype
+
+
+| 200
+| OK
+|  <<User>>
+
+
+| 401
+| Unauthorized
+|  <<>>
+
+
+| 403
+| Forbidden
+|  <<>>
+
+
+| 404
+| If the user does not exist
+|  <<>>
+
+|===
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}users/\{id\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :users/{id}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}users/\{id\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[#models]
+== Models
+
+
+[#Comment]
+=== _Comment_ 
+
+
+
+[.fields-Comment]
+[cols="2,1,2,4,1"]
+|===
+| Field Name| Required| Type| Description| Format
+
+| id
+| 
+| Integer 
+| 
+| uint64 
+
+| content
+| 
+| String 
+| 
+|  
+
+| authorId
+| 
+| Integer 
+| ID of the author of the comment
+| uint64 
+
+| postId
+| 
+| Integer 
+| ID of the post the comment is for
+| uint64 
+
+|===
+
+
+[#Post]
+=== _Post_ 
+
+
+
+[.fields-Post]
+[cols="2,1,2,4,1"]
+|===
+| Field Name| Required| Type| Description| Format
+
+| id
+| 
+| Integer 
+| 
+| uint64 
+
+| title
+| 
+| String 
+| 
+|  
+
+| content
+| 
+| String 
+| 
+| markdown 
+
+| authorId
+| 
+| Integer 
+| ID of the author of the post
+| uint64 
+
+|===
+
+
+[#User]
+=== _User_ 
+
+
+
+[.fields-User]
+[cols="2,1,2,4,1"]
+|===
+| Field Name| Required| Type| Description| Format
+
+| id
+| 
+| Integer 
+| 
+| uint64 
+
+| username
+| 
+| String 
+| 
+|  
+
+| email
+| 
+| String 
+| 
+| email 
+
+|===
+
+

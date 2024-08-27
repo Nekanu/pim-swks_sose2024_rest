@@ -17,6 +17,10 @@ trim_trailing_whitespace = false
 # ij_visual_guides = 
 # ij_wrap_on_typing = false
 
+[{*.yml,*.yaml}]
+indent_size = 2
+
+
 [*.java]
 # ij_java_align_consecutive_assignments = false
 # ij_java_align_consecutive_variable_declarations = false
@@ -348,6 +352,3 @@ ij_markdown_min_lines_around_header = 1
 ij_markdown_min_lines_between_paragraphs = 1
 ij_markdown_wrap_text_if_long = true
 ij_markdown_wrap_text_inside_blockquotes = false
-
-[{*.yaml,*.yml}]
-indent_size = 4

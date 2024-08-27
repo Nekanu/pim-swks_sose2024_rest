@@ -1,0 +1,74 @@
+name: Run API tests for ASP.NET
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  aspnet-test:
+    name: Run ASP.NET tests
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: ./rest-aspnet
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build ASP.NET project
+        run: dotnet build
+      - name: Test ASP.NET project
+        run: dotnet test
+  
+  test_postman_aspnet:
+    needs: aspnet-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start docker containers
+        run: docker compose up -d --build rest-aspnet mariadb
+      - name: Install Postman CLI
+        run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - run: sleep 10
+      - name: Run API tests
+        run: |
+          docker ps 
+          postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5" --global-var "baseUrl=http://localhost:38080"
+      - name: Stop docker containers
+        run: docker compose down
+  
+  test_jmeter_aspnet:
+    needs: aspnet-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start docker containers
+        run: docker compose up -d --build rest-aspnet mariadb
+      - name: Install JMeter
+        run: |
+          java -version
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
+          unzip apache-jmeter-5.6.3.zip
+          cd apache-jmeter-5.6.3/bin
+          ./jmeter -v
+          pwd
+      - run: sleep 5
+      - name: Run JMeter Tests
+        run: $GITHUB_WORKSPACE/apache-jmeter-5.6.3/bin/jmeter -n -t $GITHUB_WORKSPACE/jmeter/TestPlan.jmx -l "results/result.jtl" -j "logs/jmeter.log" -e -f -o reports/ -Jport=38080
+
+      - name: Stop docker containers
+        run: docker compose down
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-test-results
+          path: reports/

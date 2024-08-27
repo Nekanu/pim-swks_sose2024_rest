@@ -1,0 +1,67 @@
+name: Run API tests for Jakarta
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  maven-test:
+    name: Run maven test
+    container:
+      image: maven:3.9.9-eclipse-temurin-21-alpine
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with Maven
+        run: mvn -B test --file pom.xml
+  
+  test_postman_jakarta:
+    needs: maven-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start docker containers
+        run: docker compose up -d --build rest-jakarta
+      - name: Install Postman CLI
+        run: curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - run: sleep 10
+      - name: Run API tests
+        run: postman collection run "32069873-6161a362-b7df-4871-ae34-840197b818b5" --global-var "baseUrl=http://localhost:18080"
+      - name: Stop docker containers
+        run: docker compose down
+  
+  test_jmeter_jakarta:
+    needs: maven-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start docker containers
+        run: docker compose up -d --build rest-jakarta
+      - name: Install JMeter
+        run: |
+          java -version
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
+          unzip apache-jmeter-5.6.3.zip
+          cd apache-jmeter-5.6.3/bin
+          ./jmeter -v
+          pwd
+      - run: sleep 5
+      - name: Run JMeter Tests
+        run: $GITHUB_WORKSPACE/apache-jmeter-5.6.3/bin/jmeter -n -t $GITHUB_WORKSPACE/jmeter/TestPlan.jmx -l "results/result.jtl" -j "logs/jmeter.log" -e -f -o reports/ -Jport=18080
+      - name: Stop docker containers
+        run: docker compose down
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jmeter-test-results
+          path: reports/

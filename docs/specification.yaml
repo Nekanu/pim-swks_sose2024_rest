@@ -4,7 +4,7 @@ info:
     description: PIM-SWKS SoSe2024 REST API
     version: 1.0.0
 servers:
-    -   url: 'http://127.0.0.1:{Port}/'
+    -   url: 'http://localhost:{Port}'
         description: Local development server
         variables:
             Port:
@@ -15,7 +15,7 @@ servers:
                     - '8080'
                 default: '18080'
                 description: The port number (18080 - rest-jakarta, 28080 - rest-springboot, 38080 - rest-aspnet)
-    -   url: 'https://pim-swks.nekanu.com/'
+    -   url: 'https://pim-swks.nekanu.com'
         description: Production server
 
 tags:
@@ -97,6 +97,21 @@ components:
                     format: uint64
                     example: 1
                     description: ID of the post the comment is for
+    responses:
+        UnauthorizedError:
+            description: Unauthorized
+            headers:
+                WWW-Authenticate:
+                    description: The authentication method that should be used
+                    schema:
+                        type: string
+        ForbiddenError:
+            description: Forbidden
+        BadRequestError:
+            description: Bad Request
+        NotFoundError:
+            description: Not Found
+
 
 paths:
     /posts:
@@ -134,8 +149,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
     /posts/{id}:
         get:
             summary: Returns a post by ID
@@ -157,6 +174,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '404':
+                    description: If the post does not exist
         put:
             summary: Update a post by ID
             operationId: updatePostById
@@ -185,8 +204,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post does not exist
         delete:
             summary: Delete a post by ID
             operationId: deletePostById
@@ -209,8 +232,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post does not exist
     
     /users:
         get:
@@ -247,8 +274,10 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
     
     /users/{id}:
         get:
@@ -271,6 +300,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '404':
+                    description: If the user does not exist
         put:
             summary: Update a user by ID
             operationId: updateUserById
@@ -299,8 +330,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the user does not exist
         delete:
             summary: Delete a user by ID
             operationId: deleteUserById
@@ -323,8 +358,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the user does not exist
     
     /posts/{id}/comments:
         get:
@@ -340,6 +379,16 @@ paths:
                     schema:
                         type: integer
                         format: int64
+                -   name: limit
+                    in: query
+                    required: false
+                    description: Maximum number of comments to return
+                    schema:
+                        type: integer
+                        format: int32
+                        minimum: 1
+                        maximum: 100
+                        default: 50
             responses:
                 '200':
                     description: OK
@@ -349,6 +398,8 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/Comment'
+                '404':
+                    description: If the post does not exist
         post:
             summary: Create a new comment for a post
             operationId: createCommentForPost
@@ -377,8 +428,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post does not exist
     
     /posts/{postId}/comments/{commentId}:
         get:
@@ -408,6 +463,8 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '404':
+                    description: If the post or comment does not exist
         put:
             summary: Update a comment by ID for a post
             operationId: updateCommentForPostById
@@ -443,8 +500,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post or comment does not exist
         delete:
             summary: Delete a comment by ID for a post
             operationId: deleteCommentForPostById
@@ -474,8 +535,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Comment'
+                '401':
+                    $ref: '#/components/responses/UnauthorizedError'
                 '403':
-                    description: Forbidden
+                    $ref: '#/components/responses/ForbiddenError'
+                '404':
+                    description: If the post or comment does not exist
 
     /users/{id}/comments:
         get:
@@ -501,3 +566,32 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/Comment'
+                '404':
+                    description: If the user does not exist
+
+    /users/{id}/posts:
+        get:
+            summary: Returns all posts authored by this user
+            operationId: getPostsForUser
+            tags:
+                - posts
+                - users
+            parameters:
+                -   name: id
+                    in: path
+                    required: true
+                    description: ID of the user to return posts for
+                    schema:
+                        type: integer
+                        format: int64
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Post'
+                '404':
+                    description: If the user does not exist

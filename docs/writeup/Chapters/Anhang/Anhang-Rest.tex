@@ -1,0 +1,23 @@
+\chapter{\ac{REST}-Endpunkte}
+
+\section{User}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Methode} & \textbf{Endpunkt} & \textbf{Parameter} & \textbf{Beschreibung} \\
+        \hline
+        GET & /users & - & Gibt alle Benutzer zurück \\
+        \hline
+        GET & /users/\{id\} & id & Gibt den Benutzer mit der ID zurück \\
+        \hline
+        POST & /users & - & Erstellt einen neuen Benutzer \\
+        \hline
+        PUT & /users/\{id\} & id & Aktualisiert den Benutzer mit der ID \\
+        \hline
+        DELETE & /users/\{id\} & id & Löscht den Benutzer mit der ID \\
+        \hline
+    \end{tabular}
+    \caption{User-Endpunkte}
+\end{table}
