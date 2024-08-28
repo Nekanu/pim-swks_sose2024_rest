@@ -2,8 +2,20 @@
 
 \section{Load Tests}
 
-Anders als funktionale Tests inspizieren Load Tests die Performance des Systems unter hoher Last,
+Während funktionale Tests die Korrektheit der Implementierung prüfen,
+evaluieren Load Tests die Performance des Systems unter hoher Last,
 beispielsweise bei vielen nebenläufigen Zugriffen.
+
+Es gibt zahlreiche Gründe eine Anwendung Load Tests zu unterziehen.
+Diese sind unter anderem:
+
+\begin{itemize}
+    \item Performance des Systems messen
+    \item Bottlenecks identifizieren
+    \item Skalierbarkeit des Systems bewerten
+    \item Race Conditions entdecken
+\end{itemize}
+
 Zur Umsetzung dieser Tests wird JMeter \& 5.4.1 \& \url{https://jmeter.apache.org/} eingesetzt.
 
 \subsection{Starten von JMeter}
