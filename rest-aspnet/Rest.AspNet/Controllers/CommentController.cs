@@ -34,6 +34,12 @@ public class CommentController(BlogContext context) : ControllerBase {
     [AllowAnonymous]
     [HttpGet("{commentId}")]
     public async Task<ActionResult<Comment>> GetCommentById(ulong postId, ulong commentId) {
+        
+        Post? existingPost = await context.Posts.FindAsync(postId);
+        if (existingPost == null) {
+            return NotFound();
+        }
+        
         Comment? existingComment = (await GetPostComments(postId)).FirstOrDefault(c => c.Id == commentId);
         if (existingComment == null) {
             return NotFound();
@@ -43,9 +49,9 @@ public class CommentController(BlogContext context) : ControllerBase {
     }
     
     [HttpPut("{commentId}")]
-    public async Task<ActionResult<Comment>> UpdateComment(ulong commentId, [FromBody] Comment comment) {
+    public async Task<ActionResult<Comment>> UpdateComment(ulong postId, ulong commentId, [FromBody] Comment comment) {
 
-        Comment? existingComment = await context.Comments.FindAsync(commentId);
+        Comment? existingComment = (await GetPostComments(postId)).FirstOrDefault(c => c.Id == commentId);
         if (existingComment == null) {
             return NotFound();
         }
@@ -57,9 +63,9 @@ public class CommentController(BlogContext context) : ControllerBase {
     }
     
     [HttpDelete("{commentId}")]
-    public async Task<ActionResult<Comment>> DeleteComment(ulong commentId) {
+    public async Task<ActionResult<Comment>> DeleteComment(ulong postId, ulong commentId) {
         
-        Comment? existingComment = await context.Comments.FindAsync( commentId );
+        Comment? existingComment = (await GetPostComments(postId)).FirstOrDefault(c => c.Id == commentId);
         if (existingComment == null) {
             return NotFound();
         }

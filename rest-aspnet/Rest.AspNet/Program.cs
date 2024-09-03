@@ -4,11 +4,6 @@ using Rest.AspNet.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 string apiKey = Environment.GetEnvironmentVariable("API_KEY") ?? throw new ApplicationException("API_KEY is missing");
 
 Func<ApiKeyValidateKeyContext, Task> apiKeyValidateKey = context =>
@@ -48,11 +43,7 @@ using (IServiceScope scope = app.Services.CreateScope())
     context.Database.EnsureCreated();
 }
 
-// Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

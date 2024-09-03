@@ -18,7 +18,17 @@ import de.htwsaar.pimswks.rest.repositories.UserRepository;
 import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -29,6 +39,7 @@ public class PostsIdCommentsResource {
 
     public static final String PATH = "/posts/{postId}/comments";
     private static final String COMMENT_NOT_FOUND_MESSAGE_TEMPLATE = "Comment with ID %d not found";
+    private static final String POST_NOT_FOUND_MESSAGE_TEMPLATE = "Post with ID %d not found";
     private static final String USER_NOT_FOUND_MESSAGE_TEMPLATE = "User with ID %d not found";
 
     @Inject
@@ -56,7 +67,7 @@ public class PostsIdCommentsResource {
                                   @Valid final CommentDto comment) {
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setPost(postRepository.findById(postId)
-            .orElseThrow(() -> new NotFoundException(String.format("No post with ID %d found", postId))));
+            .orElseThrow(() -> new NotFoundException(String.format(POST_NOT_FOUND_MESSAGE_TEMPLATE, postId))));
         commentEntity.setAuthor(userRepository.findById(comment.getAuthorId())
             .orElseThrow(() -> new NotFoundException(String.format(USER_NOT_FOUND_MESSAGE_TEMPLATE, comment.getAuthorId()))));
         commentEntity.setContent(comment.getContent());
@@ -71,7 +82,11 @@ public class PostsIdCommentsResource {
     @GET
     @Path("{commentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public CommentDto getComment(@PathParam("commentId") long commentId) {
+    public CommentDto getComment(@PathParam("postId") long postId,
+                                 @PathParam("commentId") long commentId) {
+        postRepository.findById(postId).orElseThrow(
+            () -> new NotFoundException(String.format(POST_NOT_FOUND_MESSAGE_TEMPLATE, postId)));
+        
         return commentRepository.findById(commentId)
             .map(CommentEntity::convertToDto)
             .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
@@ -82,8 +97,12 @@ public class PostsIdCommentsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public CommentDto updateComment(@PathParam("commentId") long commentId,
+    public CommentDto updateComment(@PathParam("postId") long postId,
+                                    @PathParam("commentId") long commentId,
                                     @Valid final CommentDto comment) {
+        postRepository.findById(postId).orElseThrow(
+            () -> new NotFoundException(String.format(POST_NOT_FOUND_MESSAGE_TEMPLATE, postId)));
+        
         CommentEntity commentEntity = commentRepository.findById(commentId)
             .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
         commentEntity.setContent(comment.getContent());
@@ -95,7 +114,11 @@ public class PostsIdCommentsResource {
     @Path("{commentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public CommentDto deleteComment(@PathParam("commentId") long commentId) {
+    public CommentDto deleteComment(@PathParam("postId") long postId,
+                                    @PathParam("commentId") long commentId) {
+        postRepository.findById(postId).orElseThrow(
+            () -> new NotFoundException(String.format(POST_NOT_FOUND_MESSAGE_TEMPLATE, postId)));
+        
         return commentRepository.delete(commentId)
             .map(CommentEntity::convertToDto)
             .orElseThrow(() -> new NotFoundException(String.format(COMMENT_NOT_FOUND_MESSAGE_TEMPLATE, commentId)));
