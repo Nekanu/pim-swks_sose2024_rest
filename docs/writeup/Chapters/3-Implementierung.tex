@@ -7,11 +7,28 @@ Jakarta EE ist eine Sammlung von Spezifikationen für Enterprise-Java-Anwendunge
 Es ist eine Weiterentwicklung von Java EE, welches von Oracle entwickelt wurde.
 Jakarta EE wird von der Eclipse Foundation entwickelt und ist Open Source.
 
+
+
+\subsection{Projektstruktur}
+
+Das Jakarta-Projekt gliedert sich in folgende Packages:
+\begin{itemize}
+    \item \textbf{middlewares}: Beinhaltet die Anfrage-Präprozessoren (hier die Authentifizierung)
+    \item \textbf{model}: Beinhaltet die \ac{DTO}s und die Database-Entities.
+    \item \textbf{repositories}: Beinhaltet die Klassen zur Interaktion mit der Datenbank
+    \item \textbf{resources}: Beinhaltet die Implementation der Resourcen der API
+\end{itemize}
+
+\subsection{Resourcen}
+
+Die Resourcen der API werden in dem \texttt{resources}-Package implementiert.
+
+Jede Resource wird mit der \texttt{@Path}-Annotation versehen, welche den Basis-Pfad der Endpunkte in dieser Resource vorgibt.
 \todo{Write}
 
-\subsection{Probleme}
+\subsubsection{Probleme}
 
-\subsubsection*{Abhängigkeiten vom Webserver}
+\paragraph{Abhängigkeiten vom Webserver}
 
 Jakarta EE benötigt einen seperaten Webserver, um die Anwendung auszuführen. 
 Die Konfiguration und das Setup sind stark abhängig von dem verwendeten Webserver. 
@@ -26,8 +43,5 @@ Um dieses Projekt mit diesem Webserver zu betreiben, ist es notwendig, ein Konfi
     \item Konfiguration und Setup ist stark abhängig von dem verwendeten Webserver (in diesem Fall \texttt{Wildfly})
 \end{itemize}
 
-\section{Spring Boot}
-
-\todo{Write}
 \section{ASP.NET Core}
 \todo{Write}
