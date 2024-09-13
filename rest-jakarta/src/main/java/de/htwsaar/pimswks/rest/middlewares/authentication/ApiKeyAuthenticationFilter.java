@@ -10,7 +10,6 @@
 
 package de.htwsaar.pimswks.rest.middlewares.authentication;
 
-import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.annotation.Priority;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;

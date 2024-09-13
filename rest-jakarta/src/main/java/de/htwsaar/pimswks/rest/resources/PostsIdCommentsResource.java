@@ -10,12 +10,12 @@
 
 package de.htwsaar.pimswks.rest.resources;
 
+import de.htwsaar.pimswks.rest.middlewares.authentication.Secured;
 import de.htwsaar.pimswks.rest.model.CommentDto;
 import de.htwsaar.pimswks.rest.model.entities.CommentEntity;
 import de.htwsaar.pimswks.rest.repositories.CommentRepository;
 import de.htwsaar.pimswks.rest.repositories.PostRepository;
 import de.htwsaar.pimswks.rest.repositories.UserRepository;
-import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
