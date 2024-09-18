@@ -1,7 +1,12 @@
 \chapter{Tests}
 
-\section{Load Tests}
+\section{Funktionale Tests}
+\label{sec:tests-functional}
 
+\todo{Write}
+
+\section{Load Tests}
+\label{sec:tests-load}
 Während funktionale Tests die Korrektheit der Implementierung prüfen,
 evaluieren Load Tests die Performance des Systems unter hoher Last,
 beispielsweise bei vielen nebenläufigen Zugriffen.
@@ -108,3 +113,12 @@ Somit muss nur der Basispfad angepasst werden, um die Ausführung auf einer ande
 \begin{lstlisting}[caption=Workaround zur Angabe relativer Pfade]
     ${__groovy(vars.get("PathBase"))}/listeners
 \end{lstlisting}
+
+\section{Continuous Integration}
+
+\textit{Die \ac{CI}-Definitionen liegen im Verzeichnis} \texttt{.github/workflows}.\\
+
+Da wir nun alle Tests geschrieben haben, wollen wir dass diese automatisiert ausgeführt werden und Reports geben zum aktuellen Stand der Implementierung im Repository. Dazu benutzen wir \textbf{Github Actions}. Diese konfigurieren wir so, dass alle Tests (siehe \ref{sec:tests-functional} und \ref{sec:tests-load}) automatisch bei einem Git-Push auf das Repository ausgeführt werden.
+
+Sollten Tests fehlschlagen wird dies automatisch durch diese Pipeline festgestellt und benachrichtigt den Autor des Commits.
+Des Weiteren generiert der Workflow für die Load-Tests einen HTML-Report mit Performance-Indikatoren und Graphen (siehe \todo{Add reference}).

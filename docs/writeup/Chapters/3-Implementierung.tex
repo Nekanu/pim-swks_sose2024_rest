@@ -72,7 +72,20 @@ Als Vergleichsimplementierung wird das ASP.NET Core Framework verwendet.
 
 \subsection{Projektstruktur}
 
+Das ASP.NET-Projekt gliedert sich in folgende Namespaces:
+\begin{itemize}
+    \item \textbf{Controllers}: Beinhaltet die Implementation der Resourcen der API
+    \item \textbf{Data}: Beinhaltet die Klassen zur Interaktion mit der Datenbank
+    \item \textbf{Models}: Beinhaltet die \ac{DTO}s und die Database-Entities.
+\end{itemize}
+
 \subsection{Resourcen}
+
+Die Resourcen der API werden in dem \texttt{Controllers}-Namespace implementiert.
+
+Jede Resource ist auch hier eine eigene Klasse. Diese erweitert hierbei die \texttt{ControllerBase}-Klasse und wird mit dem \texttt{Route}-Attribut versehen, welches analog zur \texttt{@Path}-Anotation in Java den Basispfad der Resource angibt.\\
+
+Auch in ASP.NET sind die einzelnen Endpunkte der Resourcen als Methoden implementiert, und wie auch in Java mit Attributen versehen.
 
 \subsection{Datenbankkommunikation}
 
