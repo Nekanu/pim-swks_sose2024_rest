@@ -1,13 +1,11 @@
 \chapter{Implementierung Webserver}
 
 \section{Jakarta EE}
+\label{sec:implementation-jakarta}
 
 Als Referenzimplementierung für dieses Projekt wurde \texttt{Jakarta EE} verwendet.
-Jakarta EE ist eine Sammlung von Spezifikationen für Enterprise-Java-Anwendungen.
-Es ist eine Weiterentwicklung von Java EE, welches von Oracle entwickelt wurde.
-Jakarta EE wird von der Eclipse Foundation entwickelt und ist Open Source.
 
-
+Diese Implementierung dient als Basis gegenüber der ASP.NET Implementierung (siehe \ref{sec:implementation-aspnetcore})
 
 \subsection{Projektstruktur}
 
@@ -23,16 +21,72 @@ Das Jakarta-Projekt gliedert sich in folgende Packages:
 
 Die Resourcen der API werden in dem \texttt{resources}-Package implementiert.
 
-Jede Resource wird mit der \texttt{@Path}-Annotation versehen, welche den Basis-Pfad der Endpunkte in dieser Resource vorgibt.
+Jede Resource ist eine eigene Klasse und wird mit der \texttt{@Path}-Annotation versehen, welche den Basis-Pfad der Endpunkte in dieser Resource vorgibt.
+
+Alle Endpunkte dieser Resource werden als Methooden in der Klasse implementiert.
+Es gibt dafür verschiedene Annotationen, wie:
+
+\begin{itemize}
+    \item \texttt{@GET / @POST / ...}: Legt die HTTP-Methode der Anfrage fest.
+    \item \texttt{@Path}: Gibt den Pfad nach dem für die Resource deklarierten Basis-Pfad an.
+    \item \texttt{@Consumes}: Den \texttt{MediaType} den der Body der Anfrage haben muss.
+    \item \texttt{@Produces}: Den \texttt{MediaType} den die Antwort haben wird.
+\end{itemize}
+
+Die Methoden-Argumente werden aus den für die Argumente definierten Orten der Anfrage übernommen. Sollte kein Ort angegeben sein, nimmt das Framework dies aus dem Körper der Anfrage.
+
+Alle nötigen Konvertierungen zwischen den Java Objekten und der Serializierung für die Anfragen/Antworten sind implizit und werden von dem Framework übernommen.
+
+\begin{lstlisting}[style=Java, caption={PUT /posts/\{id\} - Deklaration}]
+@PUT
+@Path("{postId}")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@Secured
+public PostDto updatePost(@PathParam("postId") long postId,
+                            @Valid final PostDto post)
+{...}
+\end{lstlisting}
+
+\subsection{Datenbankkommunikation}
+
+Zur Kommunikation mit der Datenbank wird das Hibernate-Framework verwendet.
+
+Die Entities sind in \texttt{model/entities} implementiert und haben Annotationen für die Relationen untereinander.
+
+Jede Datenbanktabelle hat eine Implementierung in \texttt{repositories}, welche die nötigen Methoden zur Kommunikation implementiert.
+
+\subsection{Authentifizierung}
+
+Eine API-Key Authentifizierung ist nicht vom Framework implementiert, daher muss dies von uns implementiert werden.
+Dazu implementieren wir das \texttt{ContainerRequestFilter}-Interface um Anfragen ohne gültigen API-Key als Unauthentifiziert abzuweisen.
+Wir deklarieren, dass durch diese Authentifizierung geschützte Endpunkte mit der \texttt{@Secured} Annotation versehen werden.
+
+
+
+\section{ASP.NET Core}
+\label{sec:implementation-aspnetcore}
+Als Vergleichsimplementierung wird das ASP.NET Core Framework verwendet. 
+\\
+Über den Verlauf dieser Sektion werden Vergleiche zur Referenzimplementierung (siehe \ref{sec:implementation-jakarta}) gezogen.
+
+\subsection{Projektstruktur}
+
+\subsection{Resourcen}
+
+\subsection{Datenbankkommunikation}
+
+\subsection{Authentifizierung}
+
 \todo{Write}
 
-\subsubsection{Probleme}
+\section{Fazit}
 
-\paragraph{Abhängigkeiten vom Webserver}
+\paragraph{Jakarta - Abhängigkeiten von Webservern}
 
-Jakarta EE benötigt einen seperaten Webserver, um die Anwendung auszuführen. 
+Im Gegensatz zu ASP.NET oder Spring Boot benötigt Jakarta EE einen seperaten Webserver, um die Anwendung auszuführen. 
 Die Konfiguration und das Setup sind stark abhängig von dem verwendeten Webserver. 
-In diesem Fall wurde \texttt{Wildfly}\footnote{\url{https://www.wildfly.org/} | Abgerufen: 2024-05-10, 12:44 Uhr} verwendet.
+In diesem Fall wurde \texttt{Wildfly}\footnote{\url{https://www.wildfly.org/}} verwendet.
 
 Die meisten dieser Webserver sind nicht dazu ausgelegt, eine einzelne Anwendung zu hosten.
 Dies macht es schwieriger, die Anwendung in einer Microservice-Architektur zu betreiben.
@@ -43,5 +97,4 @@ Um dieses Projekt mit diesem Webserver zu betreiben, ist es notwendig, ein Konfi
     \item Konfiguration und Setup ist stark abhängig von dem verwendeten Webserver (in diesem Fall \texttt{Wildfly})
 \end{itemize}
 
-\section{ASP.NET Core}
 \todo{Write}
