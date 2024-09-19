@@ -3,23 +3,15 @@
 \section{Jakarta EE}
 \label{sec:implementation-jakarta}
 
+\textit{Das Jakarta Projekt befindet sich im Ordner:} \textbf{rest-jakarta}\\
+
 Als Referenzimplementierung für dieses Projekt wurde \texttt{Jakarta EE} verwendet.
 
 Diese Implementierung dient als Basis gegenüber der ASP.NET Implementierung (siehe \ref{sec:implementation-aspnetcore})
 
-\subsection{Projektstruktur}
-
-Das Jakarta-Projekt gliedert sich in folgende Packages:
-\begin{itemize}
-    \item \textbf{middlewares}: Beinhaltet die Anfrage-Präprozessoren (hier die Authentifizierung)
-    \item \textbf{model}: Beinhaltet die \ac{DTO}s und die Database-Entities.
-    \item \textbf{repositories}: Beinhaltet die Klassen zur Interaktion mit der Datenbank
-    \item \textbf{resources}: Beinhaltet die Implementation der Resourcen der API
-\end{itemize}
-
 \subsection{Resourcen}
 
-Die Resourcen der API werden in dem \texttt{resources}-Package implementiert.
+\textit{Die Resourcen der API sind im} \textbf{resources}\textit{-Package implementiert.} \\
 
 Jede Resource ist eine eigene Klasse und wird mit der \texttt{@Path}-Annotation versehen, welche den Basis-Pfad der Endpunkte in dieser Resource vorgibt.
 
@@ -50,13 +42,17 @@ public PostDto updatePost(@PathParam("postId") long postId,
 
 \subsection{Datenbankkommunikation}
 
-Zur Kommunikation mit der Datenbank wird das Hibernate-Framework verwendet.
+\textit{Datenbank-Entities befinden sich im Package} \textbf{model/entities}; \\
+\textit{Klassen zur Kommunikation mit der Datenbank befinden sich im} \textbf{repositories}\textit{-Package} \\
 
-Die Entities sind in \texttt{model/entities} implementiert und haben Annotationen für die Relationen untereinander.
+Zur Kommunikation mit der Datenbank wird das Hibernate-Framework verwendet.
+Die Entities haben Annotationen für die Relationen untereinander und für Datenbank-spezifische Metadaten.
 
 Jede Datenbanktabelle hat eine Implementierung in \texttt{repositories}, welche die nötigen Methoden zur Kommunikation implementiert.
 
 \subsection{Authentifizierung}
+
+\textit{Die Klassen zur Authentifizierung sind im Package} \textbf{middlewares}\\
 
 Eine API-Key Authentifizierung ist nicht vom Framework implementiert, daher muss dies von uns implementiert werden.
 Dazu implementieren wir das \texttt{ContainerRequestFilter}-Interface um Anfragen ohne gültigen API-Key als Unauthentifiziert abzuweisen.
@@ -66,22 +62,15 @@ Wir deklarieren, dass durch diese Authentifizierung geschützte Endpunkte mit de
 
 \section{ASP.NET Core}
 \label{sec:implementation-aspnetcore}
+\textit{Das ASP.NET Projekt befindet sich im Ordner:} \textbf{rest-aspnet/Rest.AspNet}\\
+
 Als Vergleichsimplementierung wird das ASP.NET Core Framework verwendet. 
 \\
 Über den Verlauf dieser Sektion werden Vergleiche zur Referenzimplementierung (siehe \ref{sec:implementation-jakarta}) gezogen.
 
-\subsection{Projektstruktur}
-
-Das ASP.NET-Projekt gliedert sich in folgende Namespaces:
-\begin{itemize}
-    \item \textbf{Controllers}: Beinhaltet die Implementation der Resourcen der API
-    \item \textbf{Data}: Beinhaltet die Klassen zur Interaktion mit der Datenbank
-    \item \textbf{Models}: Beinhaltet die \ac{DTO}s und die Database-Entities.
-\end{itemize}
-
 \subsection{Resourcen}
 
-Die Resourcen der API werden in dem \texttt{Controllers}-Namespace implementiert.
+\textit{Die Resourcen der API werden im} \textbf{Controllers}\textit{-Namespace implementiert.} \\
 
 Jede Resource ist auch hier eine eigene Klasse. Diese erweitert hierbei die \texttt{ControllerBase}-Klasse und wird mit dem \texttt{Route}-Attribut versehen, welches analog zur \texttt{@Path}-Anotation in Java den Basispfad der Resource angibt.\\
 
@@ -89,11 +78,27 @@ Auch in ASP.NET sind die einzelnen Endpunkte der Resourcen als Methoden implemen
 
 \subsection{Datenbankkommunikation}
 
+\textit{Datenbank-Entities befinden sich im Namespace} \textbf{Model}; \\
+\textit{Klassen zur Kommunikation mit der Datenbank befinden sich im} \textbf{Data}\textit{-Namespace} \\
+
+In ASP.Net übernimmt die Datenbankkommunikation \texttt{EntityFramwork} (EF).
+
+Wie auch in Hibernate werden die Models mit Attributen versehen, welche die Datenbankstruktur wiederspiegeln sollen, allerdings wird das Meiste automatisch erkannt (so zum Beispiel die Referenzen zwischen den Entities) und wir benötigen nur ein Attribut für die automatisierte ID-Generation: \texttt{[DatabaseGenerated(DatabaseGeneratedOption.Identity)]}\\
+
+Im Gegensatz zu Hibernate müssen keine Klassen für jede Interaktion mit den Entities geschrieben werden, sondern EF erkennt die Zusammenhänge aus den Entities und stellt \texttt{LINQ}-Methoden\footnote{\url{https://learn.microsoft.com/en-us/dotnet/csharp/linq/}} zu Verfügung.
+
 \subsection{Authentifizierung}
 
-\todo{Write}
+\textit{Die Authentifizierung ist in der Startklasse} \textbf{Program.cs} \textit{implementiert.}\\
+
+Authentifizierung ist deutlich komplexer in ASP.NET als in Jakarta. Dies liegt größtenteils daran,
+dass ASP.NET bereits ein komlexes System für Authentifizierung und Authorisierung enthält und einbindet. 
+Dementsprechend schwierig ist es, auf diesem System eine API-Key-Authentifizierung zu schreiben. 
+Daher haben wir uns dazu entschieden eine externe Implementierung für die API-Key Authentifizierung zu benutzen.
 
 \section{Fazit}
+
+Im Laufe der Implementierung des Projektes haben sich
 
 \paragraph{Jakarta - Abhängigkeiten von Webservern}
 
