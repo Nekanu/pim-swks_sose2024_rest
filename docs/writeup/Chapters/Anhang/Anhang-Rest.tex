@@ -1,23 +1,127 @@
-\chapter{\ac{REST}-Endpunkte}
+% \chapter{\ac{REST}-Endpunkte}
 
-\section{User}
+% \section{User}
 
-\begin{table}[!h]
-    \centering
-    \begin{tabular}{|l|l|l|l|}
-        \hline
-        \textbf{Methode} & \textbf{Endpunkt} & \textbf{Parameter} & \textbf{Beschreibung} \\
-        \hline
-        GET & /users & - & Gibt alle Benutzer zurück \\
-        \hline
-        GET & /users/\{id\} & id & Gibt den Benutzer mit der ID zurück \\
-        \hline
-        POST & /users & - & Erstellt einen neuen Benutzer \\
-        \hline
-        PUT & /users/\{id\} & id & Aktualisiert den Benutzer mit der ID \\
-        \hline
-        DELETE & /users/\{id\} & id & Löscht den Benutzer mit der ID \\
-        \hline
-    \end{tabular}
-    \caption{User-Endpunkte}
-\end{table}
+% \begin{table}[!h]
+%     \centering
+%     \begin{tabular}{|l|l|l|l|}
+%         \hline
+%         \textbf{Methode} & \textbf{Endpunkt} & \textbf{Parameter} & \textbf{Beschreibung} \\
+%         \hline
+%         GET & /users & - & Gibt alle Benutzer zurück \\
+%         \hline
+%         GET & /users/\{id\} & id & Gibt den Benutzer mit der ID zurück \\
+%         \hline
+%         POST & /users & - & Erstellt einen neuen Benutzer \\
+%         \hline
+%         PUT & /users/\{id\} & id & Aktualisiert den Benutzer mit der ID \\
+%         \hline
+%         DELETE & /users/\{id\} & id & Löscht den Benutzer mit der ID \\
+%         \hline
+%     \end{tabular}
+%     \caption{User-Endpunkte}
+% \end{table}
+
+\chapter{Listings}
+
+\begin{lstlisting}[language=JavaScript, caption={Pre-Request Skript für die Erstellung eines Benutzers, Posts und Kommentars}, label={lst:pre-request-script-200}]
+function generateRandomString(length) {
+    var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var result = '';
+    for (var i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+// Generate random username and email for user creation
+var randomUsername = generateRandomString(8);
+var randomEmail = randomUsername + '@example.com';
+
+// Generate random title and content for post creation
+var randomTitle = "Post " + generateRandomString(5);
+var randomContent = "Content for post " + generateRandomString(5);
+
+// Generate random content for comment creation
+var randomComment = "Comment " + generateRandomString(5);
+
+// Generate random content for comment update
+var updatedCommentContent = "Updated comment " + generateRandomString(5);
+
+// Store the updated values in collection variables for later verification
+pm.collectionVariables.set("updatedCommentContent", updatedCommentContent);
+
+// Step 1: Create a user
+pm.sendRequest({
+    url: pm.globals.get("baseUrl") + '/users',
+    method: 'POST',
+    header: {
+        'Content-Type': 'application/json',
+        'X-API-KEY': pm.collectionVariables.get("apiKey")
+    },
+    body: {
+        mode: 'raw',
+        raw: JSON.stringify({
+            username: randomUsername,
+            email: randomEmail
+        })
+    }
+}, function (err, res) {
+    if (err) {
+        console.log("Error creating user:", err);
+    } else {
+        var userId = res.json().id;
+        pm.collectionVariables.set("userId", userId);
+
+        // Step 2: Create a post for the user
+        pm.sendRequest({
+            url: pm.globals.get("baseUrl") + '/posts',
+            method: 'POST',
+            header: {
+                'Content-Type': 'application/json',
+                'X-API-KEY': pm.collectionVariables.get("apiKey")
+            },
+            body: {
+                mode: 'raw',
+                raw: JSON.stringify({
+                    title: randomTitle,
+                    content: randomContent,
+                    authorId: userId
+                })
+            }
+        }, function (err, res) {
+            if (err) {
+                console.log("Error creating post:", err);
+            } else {
+                var postId = res.json().id;
+                pm.collectionVariables.set("postId", postId);
+
+                // Step 3: Create a comment on the post
+                pm.sendRequest({
+                    url: pm.globals.get("baseUrl") + '/posts/' + postId + '/comments',
+                    method: 'POST',
+                    header: {
+                        'Content-Type': 'application/json',
+                        'X-API-KEY': pm.collectionVariables.get("apiKey")
+                    },
+                    body: {
+                        mode: 'raw',
+                        raw: JSON.stringify({
+                            content: randomComment,
+                            authorId: userId
+                        })
+                    }
+                }, function (err, res) {
+                    if (err) {
+                        console.log("Error creating comment:", err);
+                    } else {
+                        var commentId = res.json().id;
+                        pm.collectionVariables.set("commentId", commentId);
+                        console.log("Comment created successfully with ID:", commentId);
+                    }
+                });
+            }
+        });
+    }
+});
+\end{lstlisting}
