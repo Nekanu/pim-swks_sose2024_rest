@@ -157,6 +157,34 @@ Der Basispfad kann als Literal oder durch ein Skript definiert werden.
 \end{lstlisting}
 \footnotetext{Quelle:\url{https://stackoverflow.com/questions/11268015}}
 
+\subsection{Bewertung}
+
+JMeter stellt trotz einiger Mängel eine sinnvolle Wahl zur Erfassung und Überwachung von Leistungsparametern dar.
+
+Der Aufbau und damit die Erstellung von Testplänen ist nicht intuitiv, 
+weshalb eine explizite Einarbeitung in das Werkzeug notwendig ist.
+Auch nach dieser Einarbeitung überraschen einige Fallstricke und Eigenheiten neue Anwender,
+etwa die erwähnten Probleme beim Einsatz von Variablen oder relativen Pfaden.
+Dank des Scripting-Supports lassen sich die meisten dieser Einschränkungen umgehen,
+dies stellt jedoch einen anfangs unerwarteten Mehraufwand dar.
+
+Hat man den Aufbau der Testpläne jedoch verstanden und alle anfänglichen Hürden überwunden,
+wird man von JMeter mit einer anpassbaren und überschaubaren Zusammenfassung der Leistungsparameter
+in Form des HTML-Reports belohnt.
+Daten der einzelnen Sampler können hierbei direkt in dieser Ansicht ein- und ausgeblendet werden,
+sodass stets ein guter Überblick ermöglicht wird.
+Für komplexere Anwendungsfälle können auch eigene Graphen konfiguriert werden.
+
+Dank der hohen Zahl unterstützter Protokolle ist JMeter für viele Projekte geeignet.
+Die verschiedenen \texttt{Logic Controller}  und \texttt{Configuration Elements} 
+ermöglichen die Abbildung komplexer Anwendungsfälle,
+wenngleich die Erstellung solcher Testpläne nicht trivial ist.
+
+Zusammengefasst kann JMeter zur Durchführung von Load Tests empfohlen werden.
+Aufgrund der zwingend notwendigen Einarbeitung und verschiedener Eigenheiten des Werkzeugs 
+sollte die Zuständigkeit zur Erstellung und Wartung der Testpläne jedoch
+ausgewiesenen Projektmitgliedern übertragen werden.
+
 \section{Continuous Integration}\label{sec:CI}
 
 \textit{Die \ac{CI}-Definitionen liegen im Verzeichnis} \texttt{.github/workflows}.\\
