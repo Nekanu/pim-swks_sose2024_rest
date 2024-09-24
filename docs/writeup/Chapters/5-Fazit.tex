@@ -1,5 +1,34 @@
 \chapter{Fazit}
 
+Im Rahmen des Projekts wurde erfolgreich eine REST-API implementiert und getestet.\\
+
+
+Zunächst wurde die API unter Einsatz von OpenAPI konzeptioniert und definiert.
+Die hierbei entstandene Spezifikation führt alle Endpunkte sowie ihre Antworten auf.
+Basierend auf der OpenAPI-Spezifikation wurde die API anschließend in Jakarta und ASP.NET implementiert.
+Zur Implementierung unter Jakarta wurde Wildfly als Server eingesetzt.
+Die Korrektheit der Implementierung wurde unter Einsatz von Postman entsprechend der Spezifikation geprüft.
+Zusätzlich wurde ein JMeter-Testplan zur Erfassung von Leistungsdaten entwickelt.
+
+
+\todo[inline]{kurzbewertung implementierung}
+
+Postman erweist sich als ein benutzerfreundliches und leistungsstarkes Werkzeug für API-Tests,
+allerdings kann das Always-Online-Modell störend sein, da es eine ständige Abhängigkeit von der Postman API mit sich bringt.
+Zudem schränkt das Bezahlmodell die Anzahl der täglichen Testausführungen in der kostenlosen Version ein,
+was bei umfangreicheren Projekten zu erheblichen Einschränkungen führen kann. 
+Angesichts dessen wäre es sinnvoll, 
+für zukünftige Entwicklungen auch alternative Tools in Betracht zu ziehen. 
+
+JMeter kann grundsätzlich trotz einiger Fallstricke und Einschränkungen empfohlen werden.
+Das Werkzeug erfordert eine explizite Einarbeitung,
+kann nach dieser jedoch für viele Testszenarien eingesetzt werden.
+Die Generierung des HTML-Reports funktioniert out of the box
+und bereitet die erfassten Leistungsparameter sinnvoll auf.
+Daten der verschiedenen Sampler können direkt im HTML-Report ein- und ausgeblendet werden,
+sodass der Report einen guten Überblick bietet.
+
+
 \todo{Write}
 \section{Zusammenfassung}
 

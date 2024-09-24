@@ -17,7 +17,7 @@ Diese sind unter anderem:
 \begin{itemize}
     \item Messung der Systemperformance
     \item Identifikation von Bottlenecks
-    \item Skalierbarkeit des Systems prüfen
+    \item Untersuchung der Skalierbarkeit des Systems
     \item Entdeckung von Race Conditions
 \end{itemize}
 
@@ -84,10 +84,10 @@ JMeter kann die erfassten Leistungsparameter in einem HTML-Dashboard zusammenfas
 Dieses besteht aus verschiedenen Graphen, welche etwa Antwortzeiten und Datendurchsatz über den Verlauf des Tests darstellen.
 Um einen Report zu generieren, muss die Option \texttt{-e} benutzt werden.
 Das Dashboard ist direkt ohne weitere Konfiguration benutzbar und sollte für die meisten Projekte ausreichend sein.
-Nur in fortgeschritteneren Anwenungsfällen, etwa zur automatischen Auswertung, 
+Nur in fortgeschritteneren Anwendungsfällen, etwa zur automatischen Auswertung, 
 ist die Verwendung von Listenern mit eigenen Result-Dateien notwendig.
 
-JMeter unterstützt Anpassungen an der Graphgenerierung, etwa das Einstellen der zeitlichen Auflösung.
+JMeter unterstützt Anpassungen an der Graphgenerierung, etwa die Anpassung der zeitlichen Auflösung.
 Weiterhin können eigene Graphen hinzugefügt werden. 
 Siehe hierzu \url{https://jmeter.apache.org/usermanual/generating-dashboard.html}.
 
@@ -101,7 +101,7 @@ JMeter ermöglicht die Definition von Variablen und Skripten, um Tests besser wa
 
 Zur Definition von Variablen kann etwa das Configuration Element \texttt{User Defined Variables} eingesetzt werden.
 In diesem Element definierte Konstanten können grundsätzlich mit der Syntax \lstinline|${Variablenname}| referenziert werden,
-allerdings wird diese Syntax nicht überall unterstützt.
+was allerdings nicht von allen Eingabefeldern unterstützt wird.
 So funktioniert dies etwa im Körper einer HTTP Request oder zur Angabe der Wiederholungen einer Threadgroup,
 nicht aber zur Angabe von Dateipfaden für Sampler.
 
