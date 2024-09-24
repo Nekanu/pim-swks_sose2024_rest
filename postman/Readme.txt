@@ -1,0 +1,1 @@
+Die json Datei der Postman Collection kann man in Postman importieren über "import" importieren.
