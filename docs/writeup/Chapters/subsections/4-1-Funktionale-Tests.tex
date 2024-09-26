@@ -139,4 +139,29 @@ Dies ermöglichte eine Automatisierung der Testsequenzen, bei denen Ergebnisse a
 Zudem konnten Fehler bei ungültigen Eingaben erkannt werden, z.B. bei fehlenden Parametern oder unzulässigen Datentypen.
 Die Verwendung von Postman ermöglichte die Durchführung dieser Tests sowohl manuell als auch automatisiert,
 wobei alle Testfälle erfolgreich durchlaufen wurden und die Funktionalität der \ac{API} bestätigten.
-Für die automatisierte Ausführung der Tests wurde eine \textit{\ac{CI}} Pipeline in Github Actions erstellt, welche bei jedem Push ausgeführt wird (siehe Continous Integration~\ref{sec:CI}).
+Für die automatisierte Ausführung der Tests wurde eine \textit{\ac{CI}} Pipeline in Github Actions erstellt, welche bei jedem Push ausgeführt wird (siehe Continous Integration~\ref{sec:CI})./
+
+\subsection{Bewertung}
+
+Postman erweist sich als ein benutzerfreundliches und leistungsstarkes Werkzeug für API-Tests. 
+Es bietet eine Vielzahl von Funktionen, die die Erstellung, Ausführung und Automatisierung von Tests erleichtern. 
+Besonders hervorzuheben ist die Möglichkeit, Variablen zu verwenden, 
+um Werte wie \textit{postId} und \textit{authorId} zwischen den Testläufen dynamisch zu speichern.
+Außerdem ist die Vielseitigkeit von \textit{Collections} zur Strukturierung und Organisation von Testfällen sehr nützlich.
+Dies ermöglicht eine effiziente und automatisierte Testausführung. 
+Zudem können Fehler bei ungültigen Eingaben, wie fehlenden Parametern oder unzulässigen Datentypen, leicht erkannt werden.
+
+Allerdings bringt das Always-Online-Modell von Postman auch einige Nachteile mit sich. 
+Die ständige Abhängigkeit von der Postman API kann störend sein, insbesondere bei der Integrierung in \ac{CI}/\ac{CD}-Pipelines.
+Zudem schränkt das Bezahlmodell die Anzahl der täglichen Testausführungen in der kostenlosen Version ein, 
+was bei umfangreicheren Projekten zu erheblichen Einschränkungen führen kann.
+
+Angesichts dieser Einschränkungen wäre es sinnvoll, für zukünftige Entwicklungen auch alternative Tools in Betracht zu ziehen. 
+Tools wie \textit{Newman}, die CLI-Version von Postman, welche in der \ac{CI} Pipeline des Projekts verwendet wurde,
+war hier eine nötige Ergänzung.
+
+Anndere API-Testwerkzeuge wie \textit{Hoppscotch} könnten eine gute Alternative darstellen, 
+um die Abhängigkeit von der Postman Struktur zu reduzieren und die Flexibilität bei der Testausführung zu erhöhen.
+
+Insgesamt bietet Postman eine solide Grundlage für API-Tests, 
+jedoch sollten die genannten Einschränkungen bei der Planung und Durchführung von Tests berücksichtigt werden.
