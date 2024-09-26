@@ -105,10 +105,17 @@ Die Konfiguration und das Setup sind stark abhängig von dem verwendeten Webserv
 In diesem Fall wurde \texttt{Wildfly}\footnote{\url{https://www.wildfly.org/}} verwendet.
 
 Die meisten dieser Webserver sind nicht dazu ausgelegt, eine einzelne Anwendung zu hosten.
-Dies macht es schwieriger, die Anwendung isoliert zu betreiben, wie etwa in einer Micro-Servicearchitektur mit Docker (wie wir es umsetzen wollten).
-Wir haben es mit dem offiziellen Docker Image zum Laufen gebracht, allerdings ist jede Konfiguration, welche ein paar Einschränkungen mit sich bringt.
+Dies macht es schwieriger, die Anwendung isoliert zu betreiben, 
+wie etwa in einer Micro-Servicearchitektur mit Docker (wie wir es umsetzen wollten).
+Wir haben dazu das offizielle \textt{Wildfly} Docker Image benutzt,
+ allerdings hat auch dieses seine Schwächen.
 
 \begin{itemize}
-    \item Die Applikation muss referenzieren, dass ein Wildfly-Server als Webserver verwendet wird. Dies geschieht in \texttt{rest-jakarta/pom.xml}.
-    \item Alle Konfiguration bezüglich Datenbanken lässt sich nur in Wildfly vornehmen. Selbst wenn die Applikation die Datenbanken selbst für sich konfiguriert, wird diese Konfiguration von Wildfly überschrieben. Dies bedeutet, dass diese Service-Referenzen nur in Wildfly vorgenommen werden können. Wir haben im Rahmen dieses Projektes dies nicht automatisiert (für das Docker-Deployment) umsetzen können und daher sind wir von der ursprünglich geplanten MariaDB-Datenbank auf die In-Memory-Datenbank H2 umgestiegen.
+    \item Die Applikation muss referenzieren, dass ein Wildfly-Server als Webserver verwendet wird.
+     Dies geschieht in \texttt{rest-jakarta/pom.xml}.
+    \item Alle Konfiguration bezüglich Datenbanken lässt sich nur in Wildfly vornehmen.
+     Selbst wenn die Applikation die Datenbanken selbst für sich konfiguriert, wird diese Konfiguration von Wildfly überschrieben.
+     Dies bedeutet, dass diese Service-Referenzen nur in Wildfly vorgenommen werden können.
+     Wir haben im Rahmen dieses Projektes dies nicht automatisiert (für das Docker-Deployment) umsetzen können
+     und daher sind wir von der ursprünglich geplanten MariaDB-Datenbank auf die In-Memory-Datenbank H2 umgestiegen.
 \end{itemize}
