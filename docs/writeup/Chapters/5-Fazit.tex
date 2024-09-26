@@ -9,9 +9,13 @@ Basierend auf der OpenAPI-Spezifikation wurde die API anschließend in Jakarta u
 Zur Implementierung unter Jakarta wurde Wildfly als Server eingesetzt.
 Die Korrektheit der Implementierung wurde unter Einsatz von Postman entsprechend der Spezifikation geprüft.
 Zusätzlich wurde ein JMeter-Testplan zur Erfassung von Leistungsdaten entwickelt.
+Die Postman und JMeter Tests wurden in einer CI-Pipeline automatisiert ausgeführt.
 
-
-\todo[inline]{kurzbewertung implementierung}
+Die Implementierung mit Jakarta wies einige Tücken auf.
+Insbesondere durch das Fehlen eines integrierten webservers
+und Probleme bei der Konfiguration einer Datenbank unter Wildfly.
+Unter ASP.NET ging die Implementierung größtenteils problemlos von Statten.
+Dies kann in Teilen aber auch auf unsere größere praktische Erfahrung im Umgang mit ASP.NET zurückgeführt werden.
 
 Postman erweist sich als ein benutzerfreundliches und leistungsstarkes Werkzeug für API-Tests,
 allerdings kann das Always-Online-Modell störend sein, da es eine ständige Abhängigkeit von der Postman API mit sich bringt.
@@ -27,15 +31,3 @@ Die Generierung des HTML-Reports funktioniert out of the box
 und bereitet die erfassten Leistungsparameter sinnvoll auf.
 Daten der verschiedenen Sampler können direkt im HTML-Report ein- und ausgeblendet werden,
 sodass der Report einen guten Überblick bietet.
-
-
-\todo{Write}
-\section{Zusammenfassung}
-
-\todo{Write}
-\section{Lessons Learned}
-
-\todo{Write}
-\section{Ausblick}
-
-\todo{Write}
