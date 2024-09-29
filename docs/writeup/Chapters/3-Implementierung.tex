@@ -98,6 +98,13 @@ Daher haben wir uns dazu entschieden eine externe Implementierung für die API-K
 
 \section{Probleme}
 
+\paragraph{Dependency Management - Maven}
+
+\texttt{Maven} als Build-Managment-Tool ist leider nicht in Java integriert und muss separat installiert werden.
+Des Weiteren ist die Konfiguration von Maven deutlich komplexer als die von \texttt{.NET Core}.
+In Dotnet Core ist das Dependency-Management in der \texttt{.csproj}-Datei integriert und wird größtenteils (durch die IDE) automatisch verwaltet.
+Zusätzlich ist die Konfiguration in der \texttt{.csproj}-Datei deutlich einfacher und übersichtlicher als die in der \texttt{pom.xml}-Datei.
+
 \paragraph{Jakarta - Abhängigkeiten von Webservern}
 
 Im Gegensatz zu ASP.NET oder Spring Boot benötigt Jakarta EE einen seperaten Webserver, um die Anwendung auszuführen. 
