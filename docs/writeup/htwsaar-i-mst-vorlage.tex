@@ -1,7 +1,7 @@
 % ******************************************************************	********************************************
 %
 % **************************************************************************************************************
-\documentclass[ twoside,openright,titlepage,numbers=noenddot,%
+\documentclass[ twoside,openany,titlepage,numbers=noenddot,%
 				toc=bibliography,toc=listof,%
                 footinclude=false,headinclude=false,cleardoublepage=empty,%
 				BCOR=5mm,paper=a4,fontsize=11pt
@@ -43,22 +43,21 @@
 \pagenumbering{arabic}
 \pagestyle{headings}
 %\pagestyle{scrheadings}
-\cleardoublepage\include{Chapters/1-Projekt}
-\cleardoublepage\include{Chapters/2-Spezifikation}
-\cleardoublepage\include{Chapters/3-Implementierung}
-\cleardoublepage\include{Chapters/4-Tests}
-\cleardoublepage\include{Chapters/5-Workflow}
-\cleardoublepage\include{Chapters/6-Fazit}
+\include{Chapters/1-Projekt}
+\include{Chapters/2-Spezifikation}
+\include{Chapters/3-Implementierung}
+\include{Chapters/4-Tests}
+\include{Chapters/5-Fazit}
 
 %********************************************************************
 % Bibliography/References
 %*******************************************************
-\cleardoublepage\include{FrontBackmatter/Bibliography}
+%\cleardoublepage\include{FrontBackmatter/Bibliography}
 
 %********************************************************************
 % List of Figures etc.
 %*******************************************************
-\cleardoublepage\include{FrontBackmatter/ListOfs}
+%\cleardoublepage\include{FrontBackmatter/ListOfs}
 \include{FrontBackmatter/Abbreviations}
 
 % ********************************************************************
@@ -69,6 +68,6 @@
 \cleardoublepage\include{Chapters/Anhang/Anhang-Rest}
 
 %*******************************************************
-\cleardoublepage\include{FrontBackmatter/Colophon}
+%\cleardoublepage\include{FrontBackmatter/Colophon}
 \end{document}
 % ********************************************************************

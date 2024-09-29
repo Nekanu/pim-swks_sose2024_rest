@@ -10,6 +10,7 @@
 
 package de.htwsaar.pimswks.rest.resources;
 
+import de.htwsaar.pimswks.rest.middlewares.authentication.Secured;
 import de.htwsaar.pimswks.rest.model.CommentDto;
 import de.htwsaar.pimswks.rest.model.PostDto;
 import de.htwsaar.pimswks.rest.model.UserDto;
@@ -19,10 +20,19 @@ import de.htwsaar.pimswks.rest.model.entities.UserEntity;
 import de.htwsaar.pimswks.rest.repositories.CommentRepository;
 import de.htwsaar.pimswks.rest.repositories.PostRepository;
 import de.htwsaar.pimswks.rest.repositories.UserRepository;
-import de.htwsaar.pimswks.rest.security.Secured;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 

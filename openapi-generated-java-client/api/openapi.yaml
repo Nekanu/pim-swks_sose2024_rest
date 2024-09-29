@@ -1,0 +1,723 @@
+openapi: 3.0.3
+info:
+  description: PIM-SWKS SoSe2024 REST API
+  title: PIM-SWKS SoSe2024 REST API
+  version: 1.0.0
+servers:
+- description: Local development server
+  url: "http://localhost:{Port}"
+  variables:
+    Port:
+      default: "18080"
+      description: "The port number (18080 - rest-jakarta, 28080 - rest-springboot,\
+        \ 38080 - rest-aspnet)"
+      enum:
+      - "18080"
+      - "28080"
+      - "38080"
+      - "8080"
+- description: Production server
+  url: https://pim-swks.nekanu.com
+tags:
+- description: Operations on posts
+  name: posts
+- description: Operations on comments
+  name: comments
+- description: Operations on users
+  name: users
+paths:
+  /posts:
+    get:
+      operationId: getPosts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Post'
+                type: array
+          description: OK
+      summary: Returns all posts
+      tags:
+      - posts
+      x-accepts: application/json
+    post:
+      operationId: createPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: Created
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+      security:
+      - apikeyAuth: []
+      summary: Create a new post
+      tags:
+      - posts
+      x-content-type: application/json
+      x-accepts: application/json
+  /posts/{id}:
+    delete:
+      operationId: deletePostById
+      parameters:
+      - description: ID of the post to delete
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: OK
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+        "404":
+          description: If the post does not exist
+      security:
+      - apikeyAuth: []
+      summary: Delete a post by ID
+      tags:
+      - posts
+      x-accepts: application/json
+    get:
+      operationId: getPostById
+      parameters:
+      - description: ID of the post to return
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: OK
+        "404":
+          description: If the post does not exist
+      summary: Returns a post by ID
+      tags:
+      - posts
+      x-accepts: application/json
+    put:
+      operationId: updatePostById
+      parameters:
+      - description: ID of the post to update
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          description: OK
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+        "404":
+          description: If the post does not exist
+      security:
+      - apikeyAuth: []
+      summary: Update a post by ID
+      tags:
+      - posts
+      x-content-type: application/json
+      x-accepts: application/json
+  /users:
+    get:
+      operationId: getUsers
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/User'
+                type: array
+          description: OK
+      summary: Returns all users
+      tags:
+      - users
+      x-accepts: application/json
+    post:
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Created
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+      security:
+      - apikeyAuth: []
+      summary: Create a new user
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts: application/json
+  /users/{id}:
+    delete:
+      operationId: deleteUserById
+      parameters:
+      - description: ID of the user to delete
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+        "404":
+          description: If the user does not exist
+      security:
+      - apikeyAuth: []
+      summary: Delete a user by ID
+      tags:
+      - users
+      x-accepts: application/json
+    get:
+      operationId: getUserById
+      parameters:
+      - description: ID of the user to return
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK
+        "404":
+          description: If the user does not exist
+      summary: Returns a user by ID
+      tags:
+      - users
+      x-accepts: application/json
+    put:
+      operationId: updateUserById
+      parameters:
+      - description: ID of the user to update
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: OK
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+        "404":
+          description: If the user does not exist
+      security:
+      - apikeyAuth: []
+      summary: Update a user by ID
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts: application/json
+  /posts/{id}/comments:
+    get:
+      operationId: getCommentsForPost
+      parameters:
+      - description: ID of the post to return comments for
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: Maximum number of comments to return
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Comment'
+                type: array
+          description: OK
+        "404":
+          description: If the post does not exist
+      summary: Returns all comments for a post
+      tags:
+      - comments
+      x-accepts: application/json
+    post:
+      operationId: createCommentForPost
+      parameters:
+      - description: ID of the post to create a comment for
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: Created
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+        "404":
+          description: If the post does not exist
+      security:
+      - apikeyAuth: []
+      summary: Create a new comment for a post
+      tags:
+      - comments
+      x-content-type: application/json
+      x-accepts: application/json
+  /posts/{postId}/comments/{commentId}:
+    delete:
+      operationId: deleteCommentForPostById
+      parameters:
+      - description: ID of the post to delete a comment for
+        explode: false
+        in: path
+        name: postId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: ID of the comment to delete
+        explode: false
+        in: path
+        name: commentId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: OK
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+        "404":
+          description: If the post or comment does not exist
+      security:
+      - apikeyAuth: []
+      summary: Delete a comment by ID for a post
+      tags:
+      - comments
+      x-accepts: application/json
+    get:
+      operationId: getCommentForPostById
+      parameters:
+      - description: ID of the post to return a comment for
+        explode: false
+        in: path
+        name: postId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: ID of the comment to return
+        explode: false
+        in: path
+        name: commentId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: OK
+        "404":
+          description: If the post or comment does not exist
+      summary: Returns a comment by ID for a post
+      tags:
+      - comments
+      x-accepts: application/json
+    put:
+      operationId: updateCommentForPostById
+      parameters:
+      - description: ID of the post to update a comment for
+        explode: false
+        in: path
+        name: postId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: ID of the comment to update
+        explode: false
+        in: path
+        name: commentId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: OK
+        "401":
+          description: Unauthorized
+          headers:
+            WWW-Authenticate:
+              description: The authentication method that should be used
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "403":
+          description: Forbidden
+        "404":
+          description: If the post or comment does not exist
+      security:
+      - apikeyAuth: []
+      summary: Update a comment by ID for a post
+      tags:
+      - comments
+      x-content-type: application/json
+      x-accepts: application/json
+  /users/{id}/comments:
+    get:
+      operationId: getCommentsForUser
+      parameters:
+      - description: ID of the user to return comments for
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Comment'
+                type: array
+          description: OK
+        "404":
+          description: If the user does not exist
+      summary: Returns all comments authored by this user
+      tags:
+      - comments
+      - users
+      x-accepts: application/json
+  /users/{id}/posts:
+    get:
+      operationId: getPostsForUser
+      parameters:
+      - description: ID of the user to return posts for
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Post'
+                type: array
+          description: OK
+        "404":
+          description: If the user does not exist
+      summary: Returns all posts authored by this user
+      tags:
+      - posts
+      - users
+      x-accepts: application/json
+components:
+  responses:
+    UnauthorizedError:
+      description: Unauthorized
+      headers:
+        WWW-Authenticate:
+          description: The authentication method that should be used
+          explode: false
+          schema:
+            type: string
+          style: simple
+    ForbiddenError:
+      description: Forbidden
+    BadRequestError:
+      description: Bad Request
+    NotFoundError:
+      description: Not Found
+  schemas:
+    Post:
+      example:
+        id: 1
+        title: Hello World
+        authorId: 1
+        content: This is a post
+      properties:
+        id:
+          example: 1
+          format: uint64
+          readOnly: true
+          type: integer
+        title:
+          example: Hello World
+          maxLength: 512
+          minLength: 3
+          type: string
+        content:
+          example: This is a post
+          format: markdown
+          type: string
+        authorId:
+          description: ID of the author of the post
+          example: 1
+          format: uint64
+          type: integer
+      type: object
+    User:
+      example:
+        id: 1
+        email: email@example.com
+        username: admin
+      properties:
+        id:
+          example: 1
+          format: uint64
+          minimum: 1
+          readOnly: true
+          type: integer
+        username:
+          example: admin
+          maxLength: 64
+          minLength: 3
+          pattern: "^[a-zA-Z0-9-_.]{3,64}$"
+          type: string
+        email:
+          example: email@example.com
+          format: email
+          type: string
+      type: object
+    Comment:
+      example:
+        id: 1
+        postId: 1
+        authorId: 1
+        content: This is a comment
+      properties:
+        id:
+          example: 1
+          format: uint64
+          readOnly: true
+          type: integer
+        content:
+          example: This is a comment
+          type: string
+        authorId:
+          description: ID of the author of the comment
+          example: 1
+          format: uint64
+          type: integer
+        postId:
+          description: ID of the post the comment is for
+          example: 1
+          format: uint64
+          type: integer
+      type: object
+  securitySchemes:
+    apikeyAuth:
+      in: header
+      name: X-API-KEY
+      type: apiKey
+
